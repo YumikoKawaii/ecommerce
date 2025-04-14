@@ -11,3 +11,10 @@ export interface Category {
     name: string,
     imageUrl: string,
 }
+
+export interface Supplier {
+    id: number,
+    name: string,
+    address: string,
+    imageUrl: string,
+}
