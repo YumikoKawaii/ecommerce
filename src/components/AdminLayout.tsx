@@ -28,6 +28,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     <Menu.Item key="/categories" icon={<TagsOutlined />}>
                         <Link to="/categories">Categories</Link>
                     </Menu.Item>
+                    <Menu.Item key="/coupons" icon={<TagsOutlined />}>
+                        <Link to="/coupons">Coupons</Link>
+                    </Menu.Item>
                 </Menu>
             </Sider>
             <Layout>
