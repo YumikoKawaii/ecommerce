@@ -15,6 +15,15 @@ export interface Category {
 export interface Supplier {
     id: number,
     name: string,
+    phonerNumber: string,
+    email: string,
     address: string,
-    imageUrl: string,
+}
+
+export interface Coupon {
+    id: number,
+    name: string,
+    discountRate: number,
+    startDate: string,
+    endDate: string,
 }
