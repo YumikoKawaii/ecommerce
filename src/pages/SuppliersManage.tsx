@@ -1,14 +1,18 @@
 import { useEffect, useState } from "react";
-import { Input, Button, Row, Col, Spin } from "antd";
+import { Input, Button, Row, Col, Spin, Modal, Form, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Supplier } from "../types/types.ts";
 import { fetchSuppliers } from "../services/suppliersService.ts";
 import SuppliersTable from "../components/SuppliersTable.tsx";
 
 const SuppliersManage = () => {
-    const [Suppliers, setSuppliers] = useState<Supplier[]>([]);
+    const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
+
+    const [form] = Form.useForm();
 
     useEffect(() => {
         fetchSuppliers()
@@ -21,12 +25,42 @@ const SuppliersManage = () => {
     };
 
     const handleAdd = () => {
-        console.log("Add Supplier");
-        // Add Supplier logic here
+        setEditingSupplier(null);
+        form.resetFields();
+        setIsModalVisible(true);
     };
 
-    const filteredSuppliers = Suppliers.filter(Supplier =>
-        Supplier.name.toLowerCase().includes(searchTerm)
+    const handleEdit = (supplier: Supplier) => {
+        setEditingSupplier(supplier);
+        form.setFieldsValue(supplier);
+        setIsModalVisible(true);
+    };
+
+    const handleModalCancel = () => {
+        form.resetFields();
+        setEditingSupplier(null);
+        setIsModalVisible(false);
+    };
+
+    const handleFormSubmit = (values: Supplier) => {
+        if (editingSupplier) {
+            const updated = suppliers.map(s =>
+                s.id === values.id ? { ...s, ...values } : s
+            );
+            setSuppliers(updated);
+            message.success("Supplier updated successfully!");
+        } else {
+            const newSupplier: Supplier = {
+                ...values,
+            };
+            setSuppliers(prev => [...prev, newSupplier]);
+            message.success("Supplier added successfully!");
+        }
+        handleModalCancel();
+    };
+
+    const filteredSuppliers = suppliers.filter(supplier =>
+        supplier.name.toLowerCase().includes(searchTerm)
     );
 
     if (loading) {
@@ -52,7 +86,67 @@ const SuppliersManage = () => {
                 </Col>
             </Row>
 
-            <SuppliersTable suppliers={filteredSuppliers} />
+            <SuppliersTable suppliers={filteredSuppliers} onEdit={handleEdit} />
+
+            <Modal
+                title={editingSupplier ? "Edit Supplier" : "Add Supplier"}
+                visible={isModalVisible}
+                onCancel={handleModalCancel}
+                footer={null}
+                destroyOnClose
+            >
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onFinish={handleFormSubmit}
+                    // initialValues={{ id: 0 }}
+                >
+                    <Form.Item name="id" hidden>
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Name"
+                        name="name"
+                        rules={[{ required: true, message: 'Please input the supplier name' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Phone Number"
+                        name="phoneNumber"
+                        rules={[{ required: true, message: 'Please input the phone number' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[
+                            { required: true, message: 'Please input the email' },
+                            { type: 'email', message: 'Please enter a valid email' }
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Address"
+                        name="address"
+                        rules={[{ required: true, message: 'Please input the address' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" block>
+                            {editingSupplier ? "Update" : "Submit"}
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </>
     );
 };

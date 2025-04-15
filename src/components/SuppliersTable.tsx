@@ -1,27 +1,28 @@
-import {Button, Dropdown, Menu, Table} from 'antd';
+import { Button, Dropdown, Menu, Table } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import {Supplier} from '../types/types';
+import { Supplier } from '../types/types';
 
 interface SuppliersTableProps {
     suppliers: Supplier[];
+    onEdit: (supplier: Supplier) => void;
+    onDelete?: (supplier: Supplier) => void; // Optional delete handler
 }
 
-const handleMenuClick = (key: string, record: Supplier) => {
-    if (key === 'update') {
-        // Handle update logic
-        console.log('Update', record);
-    } else if (key === 'delete') {
-        // Handle delete logic
-        console.log('Delete', record);
-    }
-};
+const SuppliersTable = ({ suppliers, onEdit, onDelete }: SuppliersTableProps) => {
+    const handleMenuClick = (key: string, record: Supplier) => {
+        if (key === 'update') {
+            onEdit(record);
+        } else if (key === 'delete') {
+            onDelete?.(record);
+        }
+    };
 
-const SuppliersTable = ({ suppliers }: SuppliersTableProps) => {
     const columns = [
         {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
+            width: 50,
         },
         {
             title: 'Name',
@@ -35,8 +36,20 @@ const SuppliersTable = ({ suppliers }: SuppliersTableProps) => {
             ellipsis: true,
         },
         {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            ellipsis: true,
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            key: 'address',
+        },
+        {
             title: 'Actions',
             key: 'actions',
+            width: 100,
             render: (_: unknown, record: Supplier) => {
                 const menu = (
                     <Menu
@@ -49,6 +62,7 @@ const SuppliersTable = ({ suppliers }: SuppliersTableProps) => {
                             {
                                 key: 'delete',
                                 label: 'Delete',
+                                danger: true,
                             },
                         ]}
                     />
@@ -80,6 +94,7 @@ const SuppliersTable = ({ suppliers }: SuppliersTableProps) => {
                 defaultCurrent: 1,
                 defaultPageSize: 5,
                 pageSizeOptions: [5, 10, 15],
+                showSizeChanger: true,
             }}
         />
     );
