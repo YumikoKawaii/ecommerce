@@ -15,7 +15,7 @@ export interface Category {
 export interface Supplier {
     id: number,
     name: string,
-    phonerNumber: string,
+    phoneNumber: string,
     email: string,
     address: string,
 }
