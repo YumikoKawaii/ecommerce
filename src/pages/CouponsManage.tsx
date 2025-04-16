@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { Input, Button, Row, Col, Spin } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import {Coupon} from "../types/types.ts";
+import {Coupon, Product} from "../types/types.ts";
 import {fetchCoupons} from "../services/couponsService.ts";
 import CouponsTable from "../components/CouponsTable.tsx";
+import {fetchProducts} from "../services/productsService.ts";
 
 const CouponsManage = () => {
-    const [Coupons, setCoupons] = useState<Coupon[]>([])
+    const [coupons, setCoupons] = useState<Coupon[]>([])
+    const [products, setProducts] = useState<Product[]>([])
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect(() => {
         fetchCoupons()
             .then(setCoupons)
+
+        fetchProducts()
+            .then(setProducts)
             .finally(() => setLoading(false));
     }, []);
 
@@ -25,7 +30,7 @@ const CouponsManage = () => {
         // Add product logic here
     };
 
-    const filteredCoupons = Coupons.filter(coupon =>
+    const filteredCoupons = coupons.filter(coupon =>
         coupon.name.toLowerCase().includes(searchTerm)
     );
 
@@ -52,7 +57,7 @@ const CouponsManage = () => {
                 </Col>
             </Row>
 
-            <CouponsTable coupons={filteredCoupons} />
+            <CouponsTable coupons={filteredCoupons} products={products}/>
         </>
     );
 };

@@ -1,9 +1,12 @@
 export interface Product {
-    id: string;
+    id: number;
     name: string;
+    imageUrl: string,
     description: string;
     price: number;
-    image: string;
+    stock: number;
+    categoryId: number;
+    supplierId: number;
 }
 
 export interface Category {
@@ -24,6 +27,8 @@ export interface Supplier {
 export interface Coupon {
     id: number,
     name: string,
+    code: string,
+    productId: number,
     discountRate: number,
     startDate: string,
     endDate: string,

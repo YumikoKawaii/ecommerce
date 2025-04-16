@@ -1,6 +1,6 @@
 import { Button, Dropdown, Menu, Table } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import {Category} from '../types/types';
+import { Category } from '../types/types';
 
 interface CategoriesTableProps {
     categories: Category[];
@@ -13,7 +13,7 @@ const CategoriesTable = ({ categories, onEdit, onDelete }: CategoriesTableProps)
         if (key === 'update') {
             onEdit(record);
         } else if (key === 'delete') {
-            onDelete(record)
+            onDelete(record);
         }
     };
 
@@ -22,7 +22,8 @@ const CategoriesTable = ({ categories, onEdit, onDelete }: CategoriesTableProps)
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
-            width: 50,
+            width: 60,
+            align: 'center',
         },
         {
             title: 'Image',
@@ -33,22 +34,26 @@ const CategoriesTable = ({ categories, onEdit, onDelete }: CategoriesTableProps)
                     <img
                         src={imageUrl}
                         alt="category"
-                        style={{ width: 200, height: 150, objectFit: 'cover' }}
+                        style={{ width: 180, height: 120, objectFit: 'cover', borderRadius: 8 }}
                     />
                 </div>
             ),
+            width: 200,
             align: 'center',
         },
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
+            width: 180,
+            align: 'center',
         },
         {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
             ellipsis: true,
+            align: 'center',
         },
         {
             title: 'Actions',
