@@ -5,6 +5,7 @@ import CategoriesManage from './pages/CategoriesManage';
 import AdminLayout from './components/AdminLayout';
 import CouponsManage from "./pages/CouponsManage.tsx";
 import SuppliersManage from "./pages/SuppliersManage.tsx";
+import './App.css';
 
 const App = () => {
     return (

@@ -1,6 +1,32 @@
 import { useEffect, useState } from "react";
-import { Input, Button, Row, Col, Spin, Modal, Form, Upload, message, Select, InputNumber } from "antd";
-import { PlusOutlined, UploadOutlined, LoadingOutlined } from "@ant-design/icons";
+import {
+    Input,
+    Button,
+    Row,
+    Col,
+    Spin,
+    Modal,
+    Form,
+    Upload,
+    message,
+    Select,
+    InputNumber,
+    Typography,
+    Card,
+    Divider,
+    Tooltip,
+    Badge
+} from "antd";
+import {
+    PlusOutlined,
+    UploadOutlined,
+    LoadingOutlined,
+    SearchOutlined,
+    FilterOutlined,
+    TagOutlined,
+    DollarOutlined,
+    ShoppingOutlined
+} from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
 import { Product, Category, Supplier } from "../types/types.ts";
 import { fetchProducts } from "../services/productsService.ts";
@@ -8,12 +34,17 @@ import ProductsTable from "../components/ProductsTable.tsx";
 import { fetchSuppliers } from "../services/suppliersService.ts";
 import { fetchCategories } from "../services/categoriesService.ts";
 
+const { Title, Text } = Typography;
+const { Option } = Select;
+
 const ProductsManage = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+    const [selectedSupplier, setSelectedSupplier] = useState<number | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState<Product | null>(null);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -37,6 +68,23 @@ const ProductsManage = () => {
     // Handle search
     const handleSearch = (value: string) => {
         setSearchTerm(value.toLowerCase());
+    };
+
+    // Handle category filter
+    const handleCategoryChange = (value: number | null) => {
+        setSelectedCategory(value);
+    };
+
+    // Handle supplier filter
+    const handleSupplierChange = (value: number | null) => {
+        setSelectedSupplier(value);
+    };
+
+    // Reset all filters
+    const resetFilters = () => {
+        setSearchTerm("");
+        setSelectedCategory(null);
+        setSelectedSupplier(null);
     };
 
     // Open modal for adding a new product
@@ -217,33 +265,212 @@ const ProductsManage = () => {
         },
     };
 
-    // Filter products based on search term
-    const filteredProducts = products.filter(product =>
-        product.name.toLowerCase().includes(searchTerm)
-    );
+    // Filter products based on search term and selected filters
+    const filteredProducts = products.filter(product => {
+        // Filter by search term
+        const matchesSearch = product.name.toLowerCase().includes(searchTerm);
+
+        // Filter by category if selected
+        const matchesCategory = selectedCategory ? product.categoryId === selectedCategory : true;
+
+        // Filter by supplier if selected
+        const matchesSupplier = selectedSupplier ? product.supplierId === selectedSupplier : true;
+
+        return matchesSearch && matchesCategory && matchesSupplier;
+    });
+
+    // Calculate stats
+    const totalProducts = products.length;
+    const totalStock = products.reduce((sum, product) => sum + product.stock, 0);
+    const lowStockCount = products.filter(product => product.stock <= 5).length;
 
     if (loading) {
-        return <Spin tip="Loading..." style={{ display: 'block', margin: '80px auto' }} />;
+        return (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+                <Spin
+                    tip="Loading products..."
+                    size="large"
+                    style={{ color: '#558B2F' }}
+                    indicator={<LoadingOutlined style={{ fontSize: 24, color: '#8BC34A' }} spin />}
+                />
+            </div>
+        );
     }
 
     return (
         <>
-            <Row justify="space-between" align="middle" style={{ marginBottom: 24 }}>
-                <Col flex="auto">
-                    <Input.Search
-                        placeholder="Search products"
-                        allowClear
-                        enterButton
-                        onSearch={handleSearch}
-                        style={{ maxWidth: 300 }}
-                    />
-                </Col>
-                <Col>
-                    <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
-                        Add Product
-                    </Button>
-                </Col>
-            </Row>
+            <div style={{ marginBottom: 24 }}>
+                <Title level={4} style={{ color: '#558B2F', marginBottom: 16 }}>Products Management</Title>
+
+                {/* Stats Cards */}
+                <Row gutter={16} style={{ marginBottom: 24 }}>
+                    <Col xs={24} sm={8}>
+                        <Card
+                            style={{
+                                background: 'linear-gradient(135deg, #F8F9E8 0%, #E8EECC 100%)',
+                                borderRadius: 8,
+                                border: '1px solid #E8EECC'
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div>
+                                    <Text type="secondary">Total Products</Text>
+                                    <Title level={3} style={{ margin: '8px 0', color: '#558B2F' }}>{totalProducts}</Title>
+                                </div>
+                                <ShoppingOutlined style={{ fontSize: 30, color: '#8BC34A' }} />
+                            </div>
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={8}>
+                        <Card
+                            style={{
+                                background: 'linear-gradient(135deg, #F1F8E5 0%, #DCE8BB 100%)',
+                                borderRadius: 8,
+                                border: '1px solid #DCE8BB'
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div>
+                                    <Text type="secondary">Total Inventory</Text>
+                                    <Title level={3} style={{ margin: '8px 0', color: '#558B2F' }}>{totalStock} units</Title>
+                                </div>
+                                <TagOutlined style={{ fontSize: 30, color: '#8BC34A' }} />
+                            </div>
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={8}>
+                        <Card
+                            style={{
+                                background: lowStockCount > 0 ?
+                                    'linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)' :
+                                    'linear-gradient(135deg, #F1F8E5 0%, #DCE8BB 100%)',
+                                borderRadius: 8,
+                                border: lowStockCount > 0 ? '1px solid #FFECB3' : '1px solid #DCE8BB'
+                            }}
+                        >
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div>
+                                    <Text type="secondary">Low Stock Items</Text>
+                                    <Title level={3} style={{
+                                        margin: '8px 0',
+                                        color: lowStockCount > 0 ? '#FF8F00' : '#558B2F'
+                                    }}>
+                                        {lowStockCount}
+                                    </Title>
+                                </div>
+                                <Badge count={lowStockCount} color={lowStockCount > 0 ? '#FF8F00' : '#8BC34A'}>
+                                    <DollarOutlined style={{ fontSize: 30, color: lowStockCount > 0 ? '#FF8F00' : '#8BC34A' }} />
+                                </Badge>
+                            </div>
+                        </Card>
+                    </Col>
+                </Row>
+
+                <Card
+                    style={{
+                        borderRadius: 8,
+                        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
+                        border: '1px solid #E8EECC'
+                    }}
+                >
+                    <Row gutter={[16, 16]} align="middle">
+                        <Col xs={24} md={12} lg={8}>
+                            <Input.Search
+                                placeholder="Search products by name"
+                                allowClear
+                                enterButton={<SearchOutlined />}
+                                onSearch={handleSearch}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                                style={{ width: '100%' }}
+                                className="bamboo-search"
+                            />
+                        </Col>
+
+                        <Col xs={24} md={12} lg={10}>
+                            <Row gutter={8}>
+                                <Col span={12}>
+                                    <Select
+                                        placeholder="Filter by Category"
+                                        style={{ width: '100%' }}
+                                        allowClear
+                                        value={selectedCategory}
+                                        onChange={handleCategoryChange}
+                                        className="bamboo-select"
+                                    >
+                                        {categories.map(category => (
+                                            <Option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Col>
+                                <Col span={12}>
+                                    <Select
+                                        placeholder="Filter by Supplier"
+                                        style={{ width: '100%' }}
+                                        allowClear
+                                        value={selectedSupplier}
+                                        onChange={handleSupplierChange}
+                                        className="bamboo-select"
+                                    >
+                                        {suppliers.map(supplier => (
+                                            <Option key={supplier.id} value={supplier.id}>
+                                                {supplier.name}
+                                            </Option>
+                                        ))}
+                                    </Select>
+                                </Col>
+                            </Row>
+                        </Col>
+
+                        <Col xs={12} md={6} lg={3}>
+                            <Tooltip title="Reset all filters">
+                                <Button
+                                    onClick={resetFilters}
+                                    icon={<FilterOutlined />}
+                                    style={{
+                                        marginRight: 8,
+                                        borderColor: '#B7CA79',
+                                        color: '#558B2F',
+                                    }}
+                                >
+                                    Reset
+                                </Button>
+                            </Tooltip>
+                        </Col>
+
+                        <Col xs={12} md={6} lg={3} style={{ textAlign: 'right' }}>
+                            <Button
+                                type="primary"
+                                icon={<PlusOutlined />}
+                                onClick={handleAdd}
+                                style={{
+                                    background: 'linear-gradient(135deg, #8BC34A 0%, #558B2F 100%)',
+                                    border: 'none',
+                                    boxShadow: '0 2px 6px rgba(139, 195, 74, 0.4)'
+                                }}
+                            >
+                                Add Product
+                            </Button>
+                        </Col>
+                    </Row>
+                </Card>
+            </div>
+
+            {/* Display product count */}
+            <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text style={{ color: '#558B2F' }}>
+                    Showing {filteredProducts.length} of {products.length} products
+                </Text>
+                {(searchTerm || selectedCategory || selectedSupplier) && (
+                    <Text type="secondary">
+                        Filters applied: {searchTerm ? 'Search term, ' : ''}
+                        {selectedCategory ? 'Category, ' : ''}
+                        {selectedSupplier ? 'Supplier' : ''}
+                    </Text>
+                )}
+            </div>
 
             <ProductsTable
                 products={filteredProducts}
@@ -256,7 +483,11 @@ const ProductsManage = () => {
             {/* Add/Edit Modal */}
             <Modal
                 open={isModalOpen}
-                title={editingProduct ? `Edit Product: ${editingProduct.name}` : "Add New Product"}
+                title={
+                    <div style={{ color: '#558B2F' }}>
+                        {editingProduct ? `Edit Product: ${editingProduct.name}` : "Add New Product"}
+                    </div>
+                }
                 onCancel={() => {
                     setIsModalOpen(false);
                     form.resetFields();
@@ -265,13 +496,26 @@ const ProductsManage = () => {
                 onOk={handleSubmit}
                 okText={uploading ? "Saving..." : "Save"}
                 confirmLoading={uploading}
-                okButtonProps={{ disabled: uploading }}
+                okButtonProps={{
+                    disabled: uploading,
+                    style: {
+                        backgroundColor: '#75A742',
+                        borderColor: '#75A742'
+                    }
+                }}
+                cancelButtonProps={{
+                    style: { borderColor: '#DCE8BB', color: '#558B2F' }
+                }}
                 width={700}
+                className="bamboo-modal"
             >
                 <Form
                     form={form}
                     layout="vertical"
+                    className="bamboo-form"
                 >
+                    <Divider style={{ margin: '0 0 24px 0', borderColor: '#E8EECC' }} />
+
                     <Row gutter={16}>
                         <Col span={12}>
                             <Form.Item
@@ -349,7 +593,11 @@ const ProductsManage = () => {
                         name="description"
                         label="Description"
                     >
-                        <Input.TextArea rows={3} placeholder="Enter product description (optional)" />
+                        <Input.TextArea
+                            rows={3}
+                            placeholder="Enter product description (optional)"
+                            style={{ borderColor: '#E8EECC' }}
+                        />
                     </Form.Item>
 
                     <Form.Item

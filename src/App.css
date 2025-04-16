@@ -11,3 +11,216 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Bamboo-themed Search Bar */
+.ant-input-search .ant-input {
+  border-color: #B7CA79;
+  background-color: #FAFBF0;
+}
+
+.ant-input-search .ant-input:hover,
+.ant-input-search .ant-input:focus {
+  border-color: #8BC34A;
+  box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+}
+
+.ant-input-search .ant-input-search-button {
+  background-color: #75A742;
+  border-color: #75A742;
+}
+
+.ant-input-search .ant-input-search-button:hover {
+  background-color: #8BC34A;
+  border-color: #8BC34A;
+}
+
+/* Bamboo-themed Add Product Button */
+.add-product-btn {
+  background-color: #75A742;
+  border-color: #75A742;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+}
+
+.add-product-btn:hover,
+.add-product-btn:focus {
+  background-color: #8BC34A;
+  border-color: #8BC34A;
+}
+
+.add-product-btn .anticon {
+  color: white;
+}
+
+.bamboo-search .ant-input {
+  border-color: #E8EECC !important;
+}
+
+.bamboo-search .ant-input:hover,
+.bamboo-search .ant-input:focus {
+  border-color: #8BC34A !important;
+  box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2) !important;
+}
+
+.bamboo-search .ant-btn {
+  background-color: #8BC34A !important;
+  border-color: #8BC34A !important;
+}
+
+.bamboo-search .ant-btn:hover {
+  background-color: #75A742 !important;
+  border-color: #75A742 !important;
+}
+
+.bamboo-menu .ant-menu-item-selected {
+  background-color: #E8EECC !important;
+  color: #558B2F !important;
+  font-weight: 500;
+}
+
+.bamboo-menu .ant-menu-item:hover {
+  color: #75A742 !important;
+}
+
+.bamboo-menu .ant-menu-item-selected::after {
+  border-right-color: #8BC34A !important;
+}
+
+.bamboo-menu .ant-menu-item-active {
+  color: #75A742 !important;
+}
+
+.bamboo-menu .ant-menu-item .anticon {
+  color: #558B2F !important;
+}
+
+/* Make the icons in non-selected menu items slightly lighter */
+.bamboo-menu .ant-menu-item:not(.ant-menu-item-selected) .anticon {
+  color: #7D9867 !important;
+}
+
+/* Override Ant Design default focus styles */
+.bamboo-menu .ant-menu-item:focus-visible {
+  box-shadow: 0 0 0 2px #DCE8BB !important;
+}
+
+/* Custom scrollbar for sidebar */
+.ant-layout-sider::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ant-layout-sider::-webkit-scrollbar-thumb {
+  background-color: #B7CA79;
+  border-radius: 10px;
+}
+
+.ant-layout-sider::-webkit-scrollbar-track {
+  background-color: #F8F9E8;
+}
+
+/* Override Ant Design default button styles */
+.ant-btn-primary {
+  background-color: #75A742 !important;
+  border-color: #75A742 !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background-color: #8BC34A !important;
+  border-color: #8BC34A !important;
+}
+
+/* Override link colors */
+a {
+  color: #558B2F !important;
+}
+
+a:hover {
+  color: #8BC34A !important;
+}
+
+/* Make the collapse trigger match the theme */
+.ant-layout-sider-trigger {
+  background-color: #8BC34A !important;
+}
+
+.bamboo-product-table .ant-table-thead > tr > th {
+  background-color: #F1F8E5 !important;
+  color: #558B2F !important;
+  font-weight: 600;
+  border-bottom: 2px solid #B7CA79 !important;
+}
+
+/* Alternating row colors */
+.bamboo-product-table .ant-table-tbody > tr:nth-child(odd) {
+  background-color: #FAFBF0;
+}
+
+.bamboo-product-table .ant-table-tbody > tr:nth-child(even) {
+  background-color: #F8F9E8;
+}
+
+/* Row hover effect */
+.bamboo-product-table .ant-table-tbody > tr:hover td {
+  background-color: #E8EECC !important;
+}
+
+/* Selected row */
+.bamboo-product-table .ant-table-tbody > tr.ant-table-row-selected td {
+  background-color: #E8EECC !important;
+}
+
+/* Pagination styling */
+.bamboo-product-table .ant-pagination-item-active {
+  border-color: #75A742 !important;
+}
+
+.bamboo-product-table .ant-pagination-item-active a {
+  color: #558B2F !important;
+}
+
+.bamboo-product-table .ant-pagination-item:hover {
+  border-color: #8BC34A !important;
+}
+
+.bamboo-product-table .ant-pagination-item:hover a {
+  color: #8BC34A !important;
+}
+
+.bamboo-product-table .ant-pagination-prev .ant-pagination-item-link,
+.bamboo-product-table .ant-pagination-next .ant-pagination-item-link {
+  color: #558B2F !important;
+}
+
+.bamboo-product-table .ant-pagination-prev:hover .ant-pagination-item-link,
+.bamboo-product-table .ant-pagination-next:hover .ant-pagination-item-link {
+  color: #8BC34A !important;
+  border-color: #8BC34A !important;
+}
+
+/* Table border styling */
+.bamboo-product-table .ant-table {
+  border: 1px solid #E8EECC;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Sorting icons */
+.bamboo-product-table .ant-table-column-sorter-up.active,
+.bamboo-product-table .ant-table-column-sorter-down.active {
+  color: #75A742 !important;
+}
+
+/* Empty table styling */
+.bamboo-product-table .ant-empty-description {
+  color: #75A742;
+}
+
+/* Table cell borders */
+.bamboo-product-table .ant-table-cell {
+  border-bottom: 1px solid #E8EECC !important;
+}
+
+/* Better focus outline for buttons */
+.bamboo-product-table button:focus {
+  outline: 2px solid #DCE8BB !important;
+}
