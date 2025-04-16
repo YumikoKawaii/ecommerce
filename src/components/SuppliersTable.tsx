@@ -5,7 +5,7 @@ import { Supplier } from '../types/types';
 interface SuppliersTableProps {
     suppliers: Supplier[];
     onEdit: (supplier: Supplier) => void;
-    onDelete?: (supplier: Supplier) => void; // Optional delete handler
+    onDelete: (supplier: Supplier) => void;
 }
 
 const SuppliersTable = ({ suppliers, onEdit, onDelete }: SuppliersTableProps) => {
@@ -13,7 +13,7 @@ const SuppliersTable = ({ suppliers, onEdit, onDelete }: SuppliersTableProps) =>
         if (key === 'update') {
             onEdit(record);
         } else if (key === 'delete') {
-            onDelete?.(record);
+            onDelete(record);
         }
     };
 

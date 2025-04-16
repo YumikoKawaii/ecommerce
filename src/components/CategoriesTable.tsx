@@ -1,35 +1,43 @@
-import {Button, Dropdown, Menu, Table} from 'antd';
+import { Button, Dropdown, Menu, Table } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import {Category} from '../types/types';
 
 interface CategoriesTableProps {
     categories: Category[];
+    onEdit: (category: Category) => void;
+    onDelete: (category: Category) => void;
 }
 
-const handleMenuClick = (key: string, record: Category) => {
-    if (key === 'update') {
-        // Handle update logic
-        console.log('Update', record);
-    } else if (key === 'delete') {
-        // Handle delete logic
-        console.log('Delete', record);
-    }
-};
+const CategoriesTable = ({ categories, onEdit, onDelete }: CategoriesTableProps) => {
+    const handleMenuClick = (key: string, record: Category) => {
+        if (key === 'update') {
+            onEdit(record);
+        } else if (key === 'delete') {
+            onDelete(record)
+        }
+    };
 
-const CategoriesTable = ({ categories }: CategoriesTableProps) => {
     const columns = [
         {
             title: 'ID',
             dataIndex: 'id',
             key: 'id',
+            width: 50,
         },
         {
             title: 'Image',
             dataIndex: 'imageUrl',
             key: 'imageUrl',
             render: (imageUrl: string) => (
-                <img src={imageUrl} alt="category" style={{ width: 60, height: 60, objectFit: 'cover' }} />
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <img
+                        src={imageUrl}
+                        alt="category"
+                        style={{ width: 200, height: 150, objectFit: 'cover' }}
+                    />
+                </div>
             ),
+            align: 'center',
         },
         {
             title: 'Name',
@@ -45,6 +53,7 @@ const CategoriesTable = ({ categories }: CategoriesTableProps) => {
         {
             title: 'Actions',
             key: 'actions',
+            width: 100,
             render: (_: unknown, record: Category) => {
                 const menu = (
                     <Menu
