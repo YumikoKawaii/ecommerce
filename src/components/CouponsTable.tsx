@@ -54,7 +54,7 @@ const CouponsTable = ({ coupons, products, onEdit, onDelete }: CouponsTableProps
             title: 'Discount',
             dataIndex: 'discountRate',
             key: 'discountRate',
-            render: (rate: number) => `${(rate * 100).toFixed(0)}%`,
+            render: (rate: number) => `${(rate).toFixed(0)}%`,
             align: 'center',
             width: 100,
         },
