@@ -36,6 +36,10 @@ const SuppliersManage = () => {
         setIsModalVisible(true);
     };
 
+    const handleDelete = (supplier: Supplier) => {
+        console.log("Deleted: ",supplier.id)
+    }
+
     const handleModalCancel = () => {
         form.resetFields();
         setEditingSupplier(null);
@@ -86,7 +90,7 @@ const SuppliersManage = () => {
                 </Col>
             </Row>
 
-            <SuppliersTable suppliers={filteredSuppliers} onEdit={handleEdit} />
+            <SuppliersTable suppliers={filteredSuppliers} onEdit={handleEdit} onDelete={handleDelete} />
 
             <Modal
                 title={editingSupplier ? "Edit Supplier" : "Add Supplier"}
