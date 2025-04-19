@@ -224,3 +224,530 @@ a:hover {
 .bamboo-product-table button:focus {
   outline: 2px solid #DCE8BB !important;
 }
+
+/* Landing Page Styles */
+
+/* Global section styling */
+.section {
+  padding: 60px 30px; /* Reduced horizontal padding to increase width */
+  max-width: 1400px; /* Increased from 1200px */
+  margin: 0 auto;
+}
+
+.section-title {
+  text-align: center;
+  color: #558B2F !important;
+  margin-bottom: 40px !important;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+/* Carousel Styles */
+.carousel-container {
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.carousel-slide {
+  height: 450px; /* Increased height as requested */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.carousel-slide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Darker overlay for better contrast */
+}
+
+.carousel-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 80%;
+  max-width: 800px;
+  z-index: 1;
+}
+
+.carousel-title {
+  color: white !important;
+  margin-bottom: 0 !important; /* Removed bottom margin */
+  font-size: 2.5rem !important; /* Slightly smaller for better proportions */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Stronger shadow for better readability */
+  font-weight: 700 !important; /* Bolder font */
+  letter-spacing: 0.5px; /* Better readability */
+}
+
+/* Styles for the button container outside the carousel */
+.carousel-action-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.carousel-button {
+  background: #75A742 !important;
+  border-color: #75A742 !important;
+  height: 50px !important; /* Slightly taller */
+  border-radius: 6px !important;
+  font-size: 1.1rem !important; /* Slightly larger */
+  padding: 0 30px !important; /* Wider button */
+  font-weight: 500 !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.carousel-button:hover {
+  background: #8BC34A !important;
+  border-color: #8BC34A !important;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.carousel-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  color: #558B2F;
+  font-size: 16px;
+  z-index: 2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carousel-arrow:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #75A742;
+}
+
+.carousel-arrow-next {
+  right: 20px;
+}
+
+.carousel-arrow-prev {
+  left: 20px;
+}
+
+/* Category Slider */
+.category-section {
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.category-slider-container {
+  margin: 0 -8px;
+}
+
+.category-slide {
+  padding: 8px;
+  height: 100%;
+}
+
+.category-card {
+  border-radius: 8px;
+  overflow: hidden;
+  border-color: #E8EECC !important;
+  height: 400px; /* Explicit fixed height for the entire card */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-card .ant-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 220px; /* Increased from 180px */
+  padding: 16px; /* Ensure consistent padding */
+}
+
+.category-card .ant-card-meta {
+  flex: 1;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-card .ant-card-meta-title {
+  margin-bottom: 8px !important;
+}
+
+.category-card .ant-card-meta-description {
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  height: 4.5em; /* Fixed height for 3 lines of text */
+  margin-bottom: 0;
+  color: #7D9867;
+  line-height: 1.5;
+}
+
+.category-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.category-image-container {
+  height: 180px; /* Increased from 160px */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8F9E8;
+}
+
+.category-image {
+  width: 100%;
+  height: auto;
+  max-height: 180px; /* Increased to match container */
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.category-card:hover .category-image {
+  transform: scale(1.05);
+}
+
+.category-name {
+  color: #558B2F !important;
+  font-size: 1.2rem !important;
+  margin-bottom: 8px;
+  height: 1.5em; /* Fixed height for single line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.category-description {
+  color: #7D9867 !important;
+}
+
+.category-button {
+  color: #75A742 !important;
+  padding-left: 0 !important;
+  margin-top: 12px;
+  display: block;
+}
+
+.category-button:hover {
+  color: #8BC34A !important;
+}
+
+/* Benefits Section */
+.benefits-section {
+  padding: 60px 30px; /* Matching the section padding */
+  background: #F1F8E5;
+  border-top: 1px solid #E8EECC;
+  border-bottom: 1px solid #E8EECC;
+}
+
+.benefits-container {
+  max-width: 1400px; /* Increased from 1200px */
+  margin: 0 auto;
+}
+
+.benefit-item {
+  text-align: center;
+}
+
+.benefit-icon {
+  font-size: 36px !important;
+  color: #75A742 !important;
+  margin-bottom: 16px;
+}
+
+.benefit-title {
+  color: #558B2F !important;
+}
+
+.benefit-description {
+  color: #7D9867 !important;
+}
+
+/* Products Grid */
+.products-section {
+  padding-top: 80px;
+  padding-bottom: 60px;
+}
+
+.products-grid {
+  margin-bottom: 40px;
+}
+
+.product-card {
+  border-radius: 8px;
+  overflow: hidden;
+  border-color: #E8EECC !important;
+  height: 450px; /* Explicit fixed height for the entire card */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card .ant-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 250px; /* Increased from 200px */
+  padding: 16px; /* Ensure consistent padding */
+}
+
+.product-card .ant-card-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+}
+
+.product-card .ant-card-meta-title {
+  margin-bottom: 8px !important;
+}
+
+.product-card .ant-card-meta-description {
+  flex: 1;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.product-image-container {
+  height: 200px; /* Increased from 180px */
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F8F9E8;
+  padding: 10px;
+}
+
+.product-image {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 180px; /* Increased from 160px */
+  object-fit: contain;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.low-stock {
+  background-color: #FFF3D4;
+  color: #D4A72C;
+}
+
+.out-of-stock {
+  background-color: #FFDAD6;
+  color: #D32F2F;
+}
+
+.product-category {
+  color: #7D9867;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.product-name {
+  color: #558B2F !important;
+  font-size: 1.1rem !important;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-description {
+  color: #7D9867 !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 12px;
+  height: 4.5em; /* Fixed height for description (3 lines) */
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.product-price {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #558B2F;
+}
+
+.add-to-cart-btn {
+  background-color: #75A742 !important;
+  border-color: #75A742 !important;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #8BC34A !important;
+  border-color: #8BC34A !important;
+}
+
+.view-all-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.view-all-btn {
+  background: #75A742 !important;
+  border-color: #75A742 !important;
+  height: 46px !important;
+  border-radius: 6px !important;
+}
+
+.view-all-btn:hover {
+  background: #8BC34A !important;
+  border-color: #8BC34A !important;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  padding: 60px 50px;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.newsletter-title {
+  color: #558B2F !important;
+  margin-bottom: 16px !important;
+}
+
+.newsletter-text {
+  color: #7D9867 !important;
+  margin-bottom: 24px !important;
+}
+
+.shop-all-btn {
+  background: #75A742 !important;
+  border-color: #75A742 !important;
+  height: 46px !important;
+  border-radius: 6px !important;
+}
+
+.shop-all-btn:hover {
+  background: #8BC34A !important;
+  border-color: #8BC34A !important;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .section {
+    padding: 40px 20px;
+  }
+
+  .carousel-slide {
+    height: 350px;
+  }
+
+  .carousel-title {
+    font-size: 2rem !important;
+  }
+
+  .carousel-action-container {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  .benefits-section {
+    padding: 40px 20px;
+  }
+
+  .newsletter-section {
+    padding: 40px 20px;
+  }
+
+  .category-image-container {
+    height: 160px;
+  }
+
+  .product-image-container {
+    height: 180px;
+  }
+
+  .category-card .ant-card-body {
+    height: 200px; /* Adjusted for tablet */
+  }
+
+  .product-card .ant-card-body {
+    height: 230px; /* Adjusted for tablet */
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-slide {
+    height: 280px; /* Adjusted for the new higher carousel */
+  }
+
+  .carousel-title {
+    font-size: 1.6rem !important;
+  }
+
+  .carousel-content {
+    width: 90%;
+  }
+
+  .carousel-action-container .carousel-button {
+    width: 80%; /* Wider button on mobile */
+    height: 44px !important;
+  }
+
+  .product-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-price {
+    margin-bottom: 12px;
+  }
+
+  .add-to-cart-btn {
+    width: 100%;
+  }
+
+  .category-image-container {
+    height: 120px;
+  }
+
+  .product-image-container {
+    height: 150px;
+  }
+}
