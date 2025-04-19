@@ -134,7 +134,7 @@
     border-radius: 8px;
     overflow: hidden;
     border-color: #E8EECC !important;
-    height: 400px;
+    height: 320px; /* Reduced from 400px */
     display: flex;
     flex-direction: column;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -144,7 +144,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    height: 220px;
+    height: 140px; /* Reduced from 220px */
     padding: 16px;
 }
 
@@ -477,7 +477,7 @@
     }
 
     .category-card .ant-card-body {
-        height: 200px;
+        height: 140px; /* Reduced from 200px */
     }
 
     .product-card .ant-card-body {

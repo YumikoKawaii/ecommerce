@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Typography, Button, Row, Col, Card, Carousel, Spin, Empty } from 'antd';
 import { ArrowRightOutlined, CheckCircleOutlined, ShoppingOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import FacingLayout from '../components/FacingLayout';
@@ -117,13 +118,15 @@ const Landing = () => {
                 </Carousel>
                 {/* Shop Now button moved outside carousel */}
                 <div className="carousel-action-container">
-                    <Button
-                        type="primary"
-                        size="large"
-                        className="carousel-button"
-                    >
-                        Shop Now <ArrowRightOutlined />
-                    </Button>
+                    <Link to="/products">
+                        <Button
+                            type="primary"
+                            size="large"
+                            className="carousel-button"
+                        >
+                            Shop Now <ArrowRightOutlined />
+                        </Button>
+                    </Link>
                 </div>
             </div>
 
@@ -175,30 +178,26 @@ const Landing = () => {
                         >
                             {categories.map((category) => (
                                 <div key={category.id} className="category-slide">
-                                    <Card
-                                        hoverable
-                                        className="category-card"
-                                        cover={
-                                            <div className="category-image-container">
-                                                <img
-                                                    alt={category.name}
-                                                    src={category.imageUrl}
-                                                    className="category-image"
-                                                />
-                                            </div>
-                                        }
-                                    >
-                                        <Card.Meta
-                                            title={<Text strong className="category-name">{category.name}</Text>}
-                                            description={<Text className="category-description">{category.description}</Text>}
-                                        />
-                                        <Button
-                                            type="link"
-                                            className="category-button"
+                                    <Link to={`/products/category/${category.id}`}>
+                                        <Card
+                                            hoverable
+                                            className="category-card"
+                                            cover={
+                                                <div className="category-image-container">
+                                                    <img
+                                                        alt={category.name}
+                                                        src={category.imageUrl}
+                                                        className="category-image"
+                                                    />
+                                                </div>
+                                            }
                                         >
-                                            View Products <ArrowRightOutlined />
-                                        </Button>
-                                    </Card>
+                                            <Card.Meta
+                                                title={<Text strong className="category-name">{category.name}</Text>}
+                                                description={<Text className="category-description">{category.description}</Text>}
+                                            />
+                                        </Card>
+                                    </Link>
                                 </div>
                             ))}
                         </Carousel>
@@ -298,13 +297,15 @@ const Landing = () => {
                 )}
 
                 <div className="view-all-container">
-                    <Button
-                        type="primary"
-                        size="large"
-                        className="view-all-btn"
-                    >
-                        View All Products <ArrowRightOutlined />
-                    </Button>
+                    <Link to="/products">
+                        <Button
+                            type="primary"
+                            size="large"
+                            className="view-all-btn"
+                        >
+                            View All Products <ArrowRightOutlined />
+                        </Button>
+                    </Link>
                 </div>
             </div>
 
@@ -316,13 +317,15 @@ const Landing = () => {
                 <Paragraph className="newsletter-text">
                     Join our community of eco-conscious customers and be the first to know about new products and special offers.
                 </Paragraph>
-                <Button
-                    type="primary"
-                    size="large"
-                    className="shop-all-btn"
-                >
-                    Shop All Products <ArrowRightOutlined />
-                </Button>
+                <Link to="/products">
+                    <Button
+                        type="primary"
+                        size="large"
+                        className="shop-all-btn"
+                    >
+                        Shop All Products <ArrowRightOutlined />
+                    </Button>
+                </Link>
             </div>
         </FacingLayout>
     );
