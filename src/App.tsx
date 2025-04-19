@@ -6,7 +6,8 @@ import AdminLayout from './components/AdminLayout';
 import CouponsManage from "./pages/CouponsManage.tsx";
 import SuppliersManage from "./pages/SuppliersManage.tsx";
 import Landing from './pages/Landing.tsx';
-import CategoryProducts from './pages/CategoryProducts.tsx'; // Import the new CategoryProducts component
+import CategoryProducts from './pages/CategoryProducts.tsx';
+import ProductDetail from './pages/ProductDetail.tsx'; // Import ProductDetail component
 import './App.css';
 import { ConfigProvider } from 'antd';
 
@@ -49,6 +50,7 @@ const App = () => {
                     {/* Product and category routes */}
                     <Route path="/products" element={<CategoryProducts />} />
                     <Route path="/products/category/:categoryId" element={<CategoryProducts />} />
+                    <Route path="/products/:productId" element={<ProductDetail />} />
 
                     {/* Admin routes with AdminLayout */}
                     <Route path="/admin/products" element={<AdminLayout><ProductsManage /></AdminLayout>} />

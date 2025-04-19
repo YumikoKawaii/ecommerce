@@ -1,7 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Typography, Button, Row, Col, Card, Spin, Empty, Breadcrumb, Select, Pagination } from 'antd';
-import { ArrowLeftOutlined, ArrowRightOutlined, ShoppingOutlined, FilterOutlined, SortAscendingOutlined } from '@ant-design/icons';
+import {
+    Typography,
+    Button,
+    Row,
+    Col,
+    Card,
+    Spin,
+    Empty,
+    Breadcrumb,
+    Select,
+    Pagination
+} from 'antd';
+import {
+    ArrowLeftOutlined,
+    ShoppingOutlined,
+    FilterOutlined,
+    SortAscendingOutlined
+} from '@ant-design/icons';
 import FacingLayout from '../components/FacingLayout';
 import { Product, Category } from '../types/types';
 import { fetchProducts } from "../services/productsService";
@@ -329,6 +345,7 @@ const CategoryProducts = () => {
                                                         )}
                                                     </div>
                                                 }
+                                                onClick={() => navigate(`/products/${product.id}`)}
                                             >
                                                 <div className="product-category">
                                                     {categories.find(c => c.id === product.categoryId)?.name || 'Uncategorized'}
@@ -346,6 +363,10 @@ const CategoryProducts = () => {
                                                         icon={<ShoppingOutlined />}
                                                         className="add-to-cart-btn"
                                                         disabled={product.stock === 0}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            // Add to cart functionality
+                                                        }}
                                                     >
                                                         Add to Cart
                                                     </Button>
@@ -372,7 +393,7 @@ const CategoryProducts = () => {
                     </>
                 )}
 
-                {/* Related Categories Section - shown for both "all products" and single category views */}
+                {/* Related Categories Section */}
                 {categories.length > 1 && (
                     <div className="related-categories-section">
                         <Title level={3} className="section-title">

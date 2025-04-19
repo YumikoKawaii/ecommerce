@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Typography, Button, Row, Col, Card, Carousel, Spin, Empty } from 'antd';
 import { ArrowRightOutlined, CheckCircleOutlined, ShoppingOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 import FacingLayout from '../components/FacingLayout';
@@ -14,6 +14,7 @@ const Landing = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const navigate = useNavigate();
 
     // Carousel images - replace with your actual images
     const carouselImages = [
@@ -269,6 +270,7 @@ const Landing = () => {
                                             )}
                                         </div>
                                     }
+                                    onClick={() => navigate(`/products/${product.id}`)}
                                 >
                                     <div className="product-category">
                                         {categories.find(c => c.id === product.categoryId)?.name || 'Uncategorized'}
@@ -286,6 +288,10 @@ const Landing = () => {
                                             icon={<ShoppingOutlined />}
                                             className="add-to-cart-btn"
                                             disabled={product.stock === 0}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                // Add to cart functionality
+                                            }}
                                         >
                                             Add to Cart
                                         </Button>
