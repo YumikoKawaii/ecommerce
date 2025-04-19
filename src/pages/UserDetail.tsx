@@ -6,7 +6,6 @@ import {
     Row,
     Col,
     Avatar,
-    Descriptions,
     Space,
     Button,
     Divider,
@@ -73,6 +72,9 @@ const UserDetail = () => {
         };
 
         loadUser();
+
+        // Scroll to top when component mounts
+        window.scrollTo(0, 0);
     }, []);
 
     // Set initial form values when user data is loaded

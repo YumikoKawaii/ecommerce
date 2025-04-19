@@ -1,4 +1,3 @@
-// src/App.tsx
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ProductsManage from './pages/ProductsManage';
 import CategoriesManage from './pages/CategoriesManage';
@@ -8,7 +7,8 @@ import SuppliersManage from "./pages/SuppliersManage.tsx";
 import Landing from './pages/Landing.tsx';
 import CategoryProducts from './pages/CategoryProducts.tsx';
 import ProductDetail from './pages/ProductDetail.tsx';
-import UserDetail from './pages/UserDetail'; // Import the new UserDetailPage component
+import UserDetail from './pages/UserDetail';
+import Carts from './pages/Carts.tsx'; // Import the new Cart component
 import './App.css';
 import { ConfigProvider } from 'antd';
 
@@ -55,6 +55,7 @@ const App = () => {
 
                     {/* User routes */}
                     <Route path="/profile" element={<UserDetail />} />
+                    <Route path="/cart" element={<Carts />} /> {/* Add the new Cart route */}
 
                     {/* Admin routes with AdminLayout */}
                     <Route path="/admin/products" element={<AdminLayout><ProductsManage /></AdminLayout>} />

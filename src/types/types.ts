@@ -42,3 +42,10 @@ export interface User {
     phoneNumber: string,
     address: string,
 }
+
+export interface Cart {
+    id: number,
+    userId: number,
+    productId: number,
+    quantity: number,
+}
