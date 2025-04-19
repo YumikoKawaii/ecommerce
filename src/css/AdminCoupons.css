@@ -1,0 +1,237 @@
+/* AdminCoupons.css */
+
+/* Loading container */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.loading-spin {
+    color: #558B2F;
+}
+
+.loading-icon {
+    font-size: 24px;
+    color: #8BC34A;
+}
+
+/* Header section */
+.coupons-header {
+    margin-bottom: 24px;
+}
+
+.page-title {
+    color: #558B2F;
+    margin-bottom: 16px;
+}
+
+/* Stats cards */
+.stats-row {
+    margin-bottom: 24px;
+}
+
+.stats-card {
+    border-radius: 8px;
+}
+
+.stats-card-default {
+    background: linear-gradient(135deg, #F8F9E8 0%, #E8EECC 100%);
+    border: 1px solid #E8EECC;
+}
+
+.stats-card-green {
+    background: linear-gradient(135deg, #F1F8E5 0%, #DCE8BB 100%);
+    border: 1px solid #DCE8BB;
+}
+
+.stats-card-warning {
+    background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+    border: 1px solid #FFECB3;
+}
+
+.stats-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stats-value {
+    margin: 8px 0;
+    color: #558B2F;
+}
+
+.stats-value-warning {
+    color: #FF8F00;
+}
+
+.stats-icon {
+    font-size: 30px;
+    color: #8BC34A;
+}
+
+.stats-icon-warning {
+    color: #FF8F00;
+}
+
+/* Filter card */
+.filters-card {
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E8EECC;
+}
+
+.reset-filter-btn {
+    margin-right: 8px;
+    border-color: #B7CA79;
+    color: #558B2F;
+}
+
+.add-coupon-btn {
+    background: linear-gradient(135deg, #8BC34A 0%, #558B2F 100%);
+    border: none;
+    box-shadow: 0 2px 6px rgba(139, 195, 74, 0.4);
+}
+
+/* Filter results display */
+.filter-results {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-count {
+    color: #558B2F;
+}
+
+/* Coupon status styles */
+.coupon-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.coupon-name {
+    font-size: 16px;
+    display: block;
+    color: #558B2F;
+    font-weight: bold;
+}
+
+.status-tag-active {
+    color: #558B2F;
+    border: 1px solid #B7CA79;
+    background-color: #E8EECC;
+    padding: 4px 8px;
+}
+
+.status-tag-expiring {
+    color: #FF8F00;
+    border: 1px solid #FFECB3;
+    background-color: #FFF8E1;
+    padding: 4px 8px;
+}
+
+.status-tag-expired {
+    color: #9E9E9E;
+    border: 1px solid #E0E0E0;
+    background-color: #F5F5F5;
+    padding: 4px 8px;
+}
+
+.status-tag-upcoming {
+    color: #8BC34A;
+    border: 1px solid #DCE8BB;
+    background-color: #F1F8E5;
+    padding: 4px 8px;
+}
+
+/* Coupon code tag */
+.code-tag {
+    background: linear-gradient(135deg, #F8F9E8 0%, #E8EECC 100%);
+    border: 1px solid #E8EECC;
+    color: #558B2F;
+    font-family: monospace;
+    font-weight: bold;
+    padding: 4px 8px;
+}
+
+/* Discount text */
+.discount-text {
+    color: #558B2F;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Product tag */
+.product-tag {
+    color: #75A742;
+    border: 1px solid #B7CA79;
+    background-color: #F1F8E5;
+    padding: 4px 8px;
+}
+
+/* Validity period display */
+.validity-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.validity-dates {
+    white-space: nowrap;
+}
+
+.date-separator {
+    color: #9E9E9E;
+}
+
+/* Expiration badges */
+.days-remaining {
+    font-weight: bold;
+}
+
+/* Action buttons */
+.edit-button {
+    color: #75A742;
+    border-color: #B7CA79;
+    background: #F8F9E8;
+}
+
+.delete-button {
+    color: #ff4d4f;
+    border-color: #ffa39e;
+    background: #fff1f0;
+}
+
+/* Table row styling */
+.bamboo-table-row.expired-row {
+    opacity: 0.7;
+}
+
+/* Modal styles */
+.modal-title {
+    color: #558B2F;
+}
+
+.modal-divider {
+    margin: 0 0 24px 0;
+    border-color: #E8EECC;
+}
+
+.save-btn {
+    background-color: #75A742;
+    border-color: #75A742;
+}
+
+.cancel-btn {
+    border-color: #DCE8BB;
+    color: #558B2F;
+}
+
+.generate-btn {
+    padding: 0;
+    color: #558B2F;
+}

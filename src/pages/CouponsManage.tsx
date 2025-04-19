@@ -1,4 +1,4 @@
-import {JSX, useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import {
     Input,
     Button,
@@ -15,7 +15,10 @@ import {
     Card,
     Divider,
     Tooltip,
-    Badge
+    Badge,
+    Table,
+    Space,
+    Tag
 } from "antd";
 import {
     PlusOutlined,
@@ -24,19 +27,24 @@ import {
     FilterOutlined,
     TagOutlined,
     DollarOutlined,
-    GiftOutlined
+    GiftOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    CheckCircleOutlined,
+    ClockCircleOutlined,
+    StopOutlined
 } from "@ant-design/icons";
 import type { Coupon, Product } from "../types/types";
 import { fetchCoupons } from "../services/couponsService";
-import CouponsTable from "../components/CouponsTable";
 import { fetchProducts } from "../services/productsService";
 import dayjs from "dayjs";
+import "../css/AdminCoupons.css";
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;
 const { Option } = Select;
 
-const CouponsManage = (): JSX.Element => {
+const CouponsManage = () => {
     const [coupons, setCoupons] = useState<Coupon[]>([]);
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -47,6 +55,47 @@ const CouponsManage = (): JSX.Element => {
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [form] = Form.useForm();
 
+    // Function to get coupon status
+    const getCouponStatus = (startDate: string, endDate: string) => {
+        const today = dayjs();
+        const start = dayjs(startDate);
+        const end = dayjs(endDate);
+
+        if (today.isBefore(start)) {
+            return {
+                status: 'upcoming',
+                color: '#8BC34A',
+                icon: <ClockCircleOutlined />,
+                text: 'Upcoming'
+            };
+        } else if (today.isAfter(end)) {
+            return {
+                status: 'expired',
+                color: '#9E9E9E',
+                icon: <StopOutlined />,
+                text: 'Expired'
+            };
+        } else {
+            // Check if expiring soon (within 7 days)
+            const daysRemaining = end.diff(today, 'day');
+            if (daysRemaining <= 7) {
+                return {
+                    status: 'expiring',
+                    color: '#FF8F00',
+                    icon: <ClockCircleOutlined />,
+                    text: `Expires in ${daysRemaining} day${daysRemaining === 1 ? '' : 's'}`
+                };
+            } else {
+                return {
+                    status: 'active',
+                    color: '#558B2F',
+                    icon: <CheckCircleOutlined />,
+                    text: 'Active'
+                };
+            }
+        }
+    };
+
     // Fetch data on mount
     useEffect(() => {
         Promise.all([
@@ -55,7 +104,7 @@ const CouponsManage = (): JSX.Element => {
         ])
             .catch((err) => {
                 console.error("Failed to fetch data:", err);
-                void message.error("Failed to load data");
+                message.error("Failed to load data");
             })
             .finally(() => setLoading(false));
     }, []);
@@ -119,7 +168,7 @@ const CouponsManage = (): JSX.Element => {
 
         // Update local state by removing the deleted coupon
         setCoupons((prev) => prev.filter((c) => c.id !== coupon.id));
-        void message.success(`Coupon "${coupon.name}" deleted`);
+        message.success(`Coupon "${coupon.name}" deleted`);
     };
 
     // Handle form submission
@@ -152,7 +201,7 @@ const CouponsManage = (): JSX.Element => {
                     prev.map((c) => (c.id === editingCoupon.id ? updatedCoupon : c))
                 );
 
-                void message.success(`Coupon "${updatedCoupon.name}" updated`);
+                message.success(`Coupon "${updatedCoupon.name}" updated`);
             } else {
                 // Create new coupon
                 const newCoupon = {
@@ -161,7 +210,7 @@ const CouponsManage = (): JSX.Element => {
                 };
 
                 setCoupons((prev) => [...prev, newCoupon]);
-                void message.success(`Coupon "${newCoupon.name}" created`);
+                message.success(`Coupon "${newCoupon.name}" created`);
             }
 
             // Close modal and reset
@@ -174,6 +223,146 @@ const CouponsManage = (): JSX.Element => {
             setSubmitting(false);
         }
     };
+
+    // Table columns configuration
+    const columns = [
+        {
+            title: 'Coupon',
+            key: 'coupon',
+            width: 300,
+            render: (record: Coupon) => {
+                const { status, icon, text: statusText } = getCouponStatus(record.startDate, record.endDate);
+                const statusTagClass = `status-tag-${status}`;
+
+                return (
+                    <div className="coupon-container">
+                        <Text strong className="coupon-name">
+                            {record.name}
+                        </Text>
+                        <Tag
+                            icon={icon}
+                            className={statusTagClass}
+                        >
+                            {statusText}
+                        </Tag>
+                    </div>
+                );
+            },
+        },
+        {
+            title: 'Code',
+            dataIndex: 'code',
+            key: 'code',
+            width: 150,
+            align: 'center' as const,
+            render: (code: string) => (
+                <Tag className="code-tag">
+                    {code}
+                </Tag>
+            ),
+        },
+        {
+            title: 'Discount',
+            dataIndex: 'discountRate',
+            key: 'discountRate',
+            width: 120,
+            align: 'center' as const,
+            render: (rate: number) => (
+                <Text strong className="discount-text">
+                    {rate}%
+                </Text>
+            ),
+            sorter: (a: Coupon, b: Coupon) => a.discountRate - b.discountRate,
+        },
+        {
+            title: 'Product',
+            dataIndex: 'productId',
+            key: 'productId',
+            width: 200,
+            align: 'center' as const,
+            render: (productId: number) => {
+                const product = products.find((prod) => prod.id === productId);
+                return product ? (
+                    <Tag className="product-tag">
+                        {product.name}
+                    </Tag>
+                ) : '';
+            },
+            filters: products.map(prod => ({ text: prod.name, value: prod.id })),
+            onFilter: (value: number, record: Coupon) => record.productId === value,
+        },
+        {
+            title: 'Validity Period',
+            key: 'validity',
+            width: 200,
+            align: 'center' as const,
+            render: (_: never, record: Coupon) => {
+                const start = dayjs(record.startDate).format('MMM D, YYYY');
+                const end = dayjs(record.endDate).format('MMM D, YYYY');
+                const today = dayjs();
+                const endDate = dayjs(record.endDate);
+                const daysRemaining = endDate.diff(today, 'day');
+
+                let badgeColor = '#52c41a'; // Green for good days remaining
+                if (daysRemaining <= 0) {
+                    badgeColor = '#9E9E9E'; // Grey for expired
+                } else if (daysRemaining <= 7) {
+                    badgeColor = '#ff4d4f'; // Red for close to expiry
+                } else if (daysRemaining <= 14) {
+                    badgeColor = '#faad14'; // Yellow for approaching expiry
+                }
+
+                return (
+                    <Space direction="vertical" size="small" className="validity-container">
+                        <Space className="validity-dates">
+                            <Text>
+                                {start} <span className="date-separator">to</span> {end}
+                            </Text>
+                        </Space>
+                        {!today.isAfter(endDate) && (
+                            <Badge
+                                color={badgeColor}
+                                text={
+                                    <Text className="days-remaining" style={{ color: badgeColor }}>
+                                        {daysRemaining <= 0
+                                            ? 'Expired'
+                                            : `${daysRemaining} day${daysRemaining === 1 ? '' : 's'} remaining`}
+                                    </Text>
+                                }
+                            />
+                        )}
+                    </Space>
+                );
+            },
+            sorter: (a: Coupon, b: Coupon) => dayjs(a.endDate).unix() - dayjs(b.endDate).unix(),
+        },
+        {
+            title: 'Actions',
+            key: 'actions',
+            width: 150,
+            align: 'center' as const,
+            render: (_: unknown, record: Coupon) => {
+                return (
+                    <Space size="middle">
+                        <Tooltip title="Edit">
+                            <Button
+                                icon={<EditOutlined />}
+                                onClick={() => handleEdit(record)}
+                                className="edit-button"
+                            />
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                            <Button
+                                icon={<DeleteOutlined />}
+                                onClick={() => handleDelete(record)}
+                                className="delete-button"
+                            />
+                        </Tooltip>
+                    </Space>
+                );
+            },
+        },
+    ];
 
     // Filter coupons based on search term and selected filters
     const filteredCoupons = coupons.filter((coupon) => {
@@ -205,20 +394,13 @@ const CouponsManage = (): JSX.Element => {
 
     if (loading) {
         return (
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "80vh"
-                }}
-            >
+            <div className="loading-container">
                 <Spin
                     tip="Loading coupons..."
                     size="large"
-                    style={{ color: "#558B2F" }}
+                    className="loading-spin"
                     indicator={
-                        <LoadingOutlined style={{ fontSize: 24, color: "#8BC34A" }} spin />
+                        <LoadingOutlined className="loading-icon" spin />
                     }
                 />
             </div>
@@ -226,91 +408,46 @@ const CouponsManage = (): JSX.Element => {
     }
 
     return (
-        <>
-            <div style={{ marginBottom: 24 }}>
-                <Title level={4} style={{ color: "#558B2F", marginBottom: 16 }}>
+        <div className="coupons-section">
+            <div className="coupons-header">
+                <Title level={4} className="page-title">
                     Coupons Management
                 </Title>
 
                 {/* Stats Cards */}
-                <Row gutter={16} style={{ marginBottom: 24 }}>
+                <Row gutter={16} className="stats-row">
                     <Col xs={24} sm={8}>
-                        <Card
-                            style={{
-                                background: "linear-gradient(135deg, #F8F9E8 0%, #E8EECC 100%)",
-                                borderRadius: 8,
-                                border: "1px solid #E8EECC"
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between"
-                                }}
-                            >
+                        <Card className="stats-card stats-card-default">
+                            <div className="stats-content">
                                 <div>
                                     <Text type="secondary">Total Coupons</Text>
-                                    <Title level={3} style={{ margin: "8px 0", color: "#558B2F" }}>
+                                    <Title level={3} className="stats-value">
                                         {totalCoupons}
                                     </Title>
                                 </div>
-                                <TagOutlined style={{ fontSize: 30, color: "#8BC34A" }} />
+                                <TagOutlined className="stats-icon" />
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} sm={8}>
-                        <Card
-                            style={{
-                                background: "linear-gradient(135deg, #F1F8E5 0%, #DCE8BB 100%)",
-                                borderRadius: 8,
-                                border: "1px solid #DCE8BB"
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between"
-                                }}
-                            >
+                        <Card className="stats-card stats-card-green">
+                            <div className="stats-content">
                                 <div>
                                     <Text type="secondary">Active Coupons</Text>
-                                    <Title level={3} style={{ margin: "8px 0", color: "#558B2F" }}>
+                                    <Title level={3} className="stats-value">
                                         {activeCoupons}
                                     </Title>
                                 </div>
-                                <GiftOutlined style={{ fontSize: 30, color: "#8BC34A" }} />
+                                <GiftOutlined className="stats-icon" />
                             </div>
                         </Card>
                     </Col>
                     <Col xs={24} sm={8}>
-                        <Card
-                            style={{
-                                background:
-                                    expiringCoupons > 0
-                                        ? "linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%)"
-                                        : "linear-gradient(135deg, #F1F8E5 0%, #DCE8BB 100%)",
-                                borderRadius: 8,
-                                border: expiringCoupons > 0 ? "1px solid #FFECB3" : "1px solid #DCE8BB"
-                            }}
-                        >
-                            <div
-                                style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "space-between"
-                                }}
-                            >
+                        <Card className={`stats-card ${expiringCoupons > 0 ? 'stats-card-warning' : 'stats-card-green'}`}>
+                            <div className="stats-content">
                                 <div>
                                     <Text type="secondary">Expiring Soon</Text>
-                                    <Title
-                                        level={3}
-                                        style={{
-                                            margin: "8px 0",
-                                            color: expiringCoupons > 0 ? "#FF8F00" : "#558B2F"
-                                        }}
-                                    >
+                                    <Title level={3} className={expiringCoupons > 0 ? "stats-value-warning" : "stats-value"}>
                                         {expiringCoupons}
                                     </Title>
                                 </div>
@@ -318,25 +455,14 @@ const CouponsManage = (): JSX.Element => {
                                     count={expiringCoupons}
                                     color={expiringCoupons > 0 ? "#FF8F00" : "#8BC34A"}
                                 >
-                                    <DollarOutlined
-                                        style={{
-                                            fontSize: 30,
-                                            color: expiringCoupons > 0 ? "#FF8F00" : "#8BC34A"
-                                        }}
-                                    />
+                                    <DollarOutlined className={expiringCoupons > 0 ? "stats-icon-warning" : "stats-icon"} />
                                 </Badge>
                             </div>
                         </Card>
                     </Col>
                 </Row>
 
-                <Card
-                    style={{
-                        borderRadius: 8,
-                        boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
-                        border: "1px solid #E8EECC"
-                    }}
-                >
+                <Card className="filters-card">
                     <Row gutter={[16, 16]} align="middle">
                         <Col xs={24} md={12} lg={8}>
                             <Input.Search
@@ -373,11 +499,7 @@ const CouponsManage = (): JSX.Element => {
                                 <Button
                                     onClick={resetFilters}
                                     icon={<FilterOutlined />}
-                                    style={{
-                                        marginRight: 8,
-                                        borderColor: "#B7CA79",
-                                        color: "#558B2F"
-                                    }}
+                                    className="reset-filter-btn"
                                 >
                                     Reset
                                 </Button>
@@ -389,11 +511,7 @@ const CouponsManage = (): JSX.Element => {
                                 type="primary"
                                 icon={<PlusOutlined />}
                                 onClick={handleAdd}
-                                style={{
-                                    background: "linear-gradient(135deg, #8BC34A 0%, #558B2F 100%)",
-                                    border: "none",
-                                    boxShadow: "0 2px 6px rgba(139, 195, 74, 0.4)"
-                                }}
+                                className="add-coupon-btn"
                             >
                                 Add Coupon
                             </Button>
@@ -403,15 +521,8 @@ const CouponsManage = (): JSX.Element => {
             </div>
 
             {/* Display coupon count */}
-            <div
-                style={{
-                    marginBottom: 16,
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                }}
-            >
-                <Text style={{ color: "#558B2F" }}>
+            <div className="filter-results">
+                <Text className="filter-count">
                     Showing {filteredCoupons.length} of {coupons.length} coupons
                 </Text>
                 {(searchTerm || selectedProduct) && (
@@ -422,18 +533,30 @@ const CouponsManage = (): JSX.Element => {
                 )}
             </div>
 
-            <CouponsTable
-                coupons={filteredCoupons}
-                products={products}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
+            {/* Coupons Table */}
+            <Table
+                columns={columns}
+                dataSource={filteredCoupons}
+                rowKey="id"
+                pagination={{
+                    defaultCurrent: 1,
+                    defaultPageSize: 5,
+                    pageSizeOptions: [5, 10, 15],
+                    showTotal: (total) => `Total ${total} coupons`,
+                }}
+                scroll={{ x: 'max-content' }}
+                rowClassName={(record) => {
+                    const { status } = getCouponStatus(record.startDate, record.endDate);
+                    return `bamboo-table-row ${status === 'expired' ? 'expired-row' : ''}`;
+                }}
+                className="bamboo-table"
             />
 
             {/* Add/Edit Modal */}
             <Modal
                 open={isModalOpen}
                 title={
-                    <div style={{ color: "#558B2F" }}>
+                    <div className="modal-title">
                         {editingCoupon ? `Edit Coupon: ${editingCoupon.name}` : "Add New Coupon"}
                     </div>
                 }
@@ -446,19 +569,16 @@ const CouponsManage = (): JSX.Element => {
                 confirmLoading={submitting}
                 okButtonProps={{
                     disabled: submitting,
-                    style: {
-                        backgroundColor: "#75A742",
-                        borderColor: "#75A742"
-                    }
+                    className: "save-btn"
                 }}
                 cancelButtonProps={{
-                    style: { borderColor: "#DCE8BB", color: "#558B2F" }
+                    className: "cancel-btn"
                 }}
                 width={700}
                 className="bamboo-modal"
             >
                 <Form form={form} layout="vertical" className="bamboo-form">
-                    <Divider style={{ margin: "0 0 24px 0", borderColor: "#E8EECC" }} />
+                    <Divider className="modal-divider" />
 
                     <Row gutter={16}>
                         <Col span={16}>
@@ -501,7 +621,7 @@ const CouponsManage = (): JSX.Element => {
                                         <Button
                                             type="link"
                                             onClick={generateCouponCode}
-                                            style={{ padding: 0, color: "#558B2F" }}
+                                            className="generate-btn"
                                         >
                                             Generate
                                         </Button>
@@ -538,7 +658,7 @@ const CouponsManage = (): JSX.Element => {
                     </Form.Item>
                 </Form>
             </Modal>
-        </>
+        </div>
     );
 };
 

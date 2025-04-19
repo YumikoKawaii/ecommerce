@@ -1,0 +1,131 @@
+/* AdminCategories.css */
+
+/* Header section */
+.categories-header {
+    margin-bottom: 24px;
+}
+
+/* Loading spinner */
+.loading-spinner {
+    display: block;
+    margin: 80px auto;
+}
+
+/* Table styles */
+.categories-table {
+    margin-top: 16px;
+}
+
+/* ID Tag */
+.id-tag {
+    color: #558B2F;
+    border-color: #B7CA79;
+    background-color: #F1F8E5;
+}
+
+/* Category item container */
+.category-info-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Category image */
+.category-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #E8EECC;
+}
+
+/* Category text styles */
+.category-name {
+    font-size: 16px;
+    display: block;
+    color: #558B2F;
+    font-weight: bold;
+}
+
+.category-description {
+    max-width: 230px;
+}
+
+/* Products count tag */
+.products-count-tag {
+    color: #75A742;
+    border-color: #B7CA79;
+    background-color: #E8EECC;
+    padding: 4px 12px;
+    font-size: 14px;
+}
+
+/* Action buttons */
+.edit-button {
+    color: #75A742;
+    border-color: #B7CA79;
+    background: #F8F9E8;
+}
+
+.delete-button {
+    color: #ff4d4f;
+    border-color: #ffa39e;
+    background: #fff1f0;
+}
+
+/* Modal styles */
+.categories-modal .ant-modal-title {
+    color: #558B2F;
+}
+
+.save-button {
+    background-color: #75A742;
+    border-color: #75A742;
+}
+
+.cancel-button {
+    border-color: #DCE8BB;
+    color: #558B2F;
+}
+
+/* Form styles */
+.categories-form .ant-form-item-label > label {
+    color: #558B2F;
+}
+
+.categories-form .ant-input {
+    border-color: #E8EECC;
+}
+
+.categories-form .ant-input:hover,
+.categories-form .ant-input:focus {
+    border-color: #8BC34A;
+    box-shadow: 0 0 0 2px rgba(139, 195, 74, 0.2);
+}
+
+/* Upload button */
+.upload-container {
+    margin-top: 8px;
+}
+
+/* Search and Add button section */
+.search-add-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.category-search {
+    max-width: 300px;
+}
+
+.add-category-btn {
+    background-color: #75A742;
+    border-color: #75A742;
+}
+
+.add-category-btn:hover {
+    background-color: #8BC34A;
+    border-color: #8BC34A;
+}

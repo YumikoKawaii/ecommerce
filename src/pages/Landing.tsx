@@ -5,6 +5,7 @@ import FacingLayout from '../components/FacingLayout';
 import {Product, Category} from '../types/types';
 import {fetchProducts} from "../services/productsService.ts";
 import {fetchCategories} from "../services/categoriesService.ts";
+import '../css/Landing.css';
 
 const { Title, Paragraph, Text } = Typography;
 

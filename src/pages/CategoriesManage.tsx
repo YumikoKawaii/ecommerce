@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Input, Button, Row, Col, Spin, Modal, Form, Upload, message } from "antd";
-import { PlusOutlined, UploadOutlined, LoadingOutlined } from "@ant-design/icons";
+import { Input, Button, Row, Col, Spin, Modal, Form, Upload, message, Table, Space, Tooltip, Tag, Typography } from "antd";
+import { PlusOutlined, UploadOutlined, LoadingOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
 import { Category } from "../types/types.ts";
 import { fetchCategories } from "../services/categoriesService.ts";
-import CategoriesTable from "../components/CategoriesTable.tsx";
+import "../css/AdminCategories.css";
+
+const { Text } = Typography;
 
 const CategoriesManage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -70,7 +72,9 @@ const CategoriesManage = () => {
         // In a real app, you would make an API call here
         console.log(`Deleting category with ID: ${category.id}`);
 
-        // This will be handled by your CategoriesTable component
+        // Update local state by removing the deleted category
+        setCategories(prev => prev.filter(c => c.id !== category.id));
+        message.success(`Category "${category.name}" deleted`);
     };
 
     // Handle form submission
@@ -166,7 +170,7 @@ const CategoriesManage = () => {
         }
     };
 
-    // Handle upload props - FIXED
+    // Handle upload props
     const uploadProps: UploadProps = {
         onRemove: () => {
             setFileList([]); // Clear the fileList when removing
@@ -197,12 +201,108 @@ const CategoriesManage = () => {
             showRemoveIcon: true,
         },
         // Simulate immediate upload completion for demo
-        customRequest: ({ file, onSuccess }) => {
+        customRequest: ({ onSuccess }) => {
             setTimeout(() => {
                 onSuccess?.("ok");
             }, 0);
         },
     };
+
+    // Table columns configuration
+    const columns = [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: 80,
+            align: 'center' as const,
+            render: (id: number) => (
+                <Tag className="id-tag">
+                    {id}
+                </Tag>
+            ),
+        },
+        {
+            title: 'Category',
+            key: 'category',
+            width: 350,
+            render: (record: Category) => (
+                <div className="category-info-container">
+                    <img
+                        src={record.imageUrl}
+                        alt={record.name}
+                        className="category-image"
+                    />
+                    <div className="category-text-container">
+                        <Tooltip title={record.name}>
+                            <Text strong className="category-name" ellipsis>
+                                {record.name}
+                            </Text>
+                        </Tooltip>
+                        <Tooltip title={record.description || 'No description'}>
+                            <Text type="secondary" className="category-description" ellipsis>
+                                {record.description || 'No description'}
+                            </Text>
+                        </Tooltip>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            title: 'Products',
+            key: 'products',
+            width: 120,
+            align: 'center' as const,
+            render: () => {
+                // Placeholder for product count - in a real app, you would calculate this
+                const count = Math.floor(Math.random() * 20); // Just for demo
+                return (
+                    <Tag className="products-count-tag">
+                        {count} products
+                    </Tag>
+                );
+            },
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+            ellipsis: true,
+            align: 'left' as const,
+            render: (description: string) => (
+                <Text ellipsis={{ tooltip: description }}>
+                    {description || 'No description available'}
+                </Text>
+            ),
+            width: 300,
+        },
+        {
+            title: 'Actions',
+            key: 'actions',
+            width: 150,
+            align: 'center' as const,
+            render: (_: unknown, record: Category) => {
+                return (
+                    <Space size="middle">
+                        <Tooltip title="Edit">
+                            <Button
+                                icon={<EditOutlined />}
+                                onClick={() => handleEdit(record)}
+                                className="edit-button"
+                            />
+                        </Tooltip>
+                        <Tooltip title="Delete">
+                            <Button
+                                icon={<DeleteOutlined />}
+                                onClick={() => handleDelete(record)}
+                                className="delete-button"
+                            />
+                        </Tooltip>
+                    </Space>
+                );
+            },
+        },
+    ];
 
     // Filter categories based on search term
     const filteredCategories = categories.filter(category =>
@@ -210,40 +310,58 @@ const CategoriesManage = () => {
     );
 
     if (loading) {
-        return <Spin tip="Loading..." style={{ display: 'block', margin: '80px auto' }} />;
+        return <Spin tip="Loading..." className="loading-spinner" />;
     }
 
     return (
-        <>
+        <div className="categories-section">
             {/* Search and Add button row */}
-            <Row justify="space-between" align="middle" style={{ marginBottom: 24 }}>
+            <Row className="search-add-container">
                 <Col flex="auto">
                     <Input.Search
                         placeholder="Search categories"
                         allowClear
                         enterButton
                         onSearch={handleSearch}
-                        style={{ maxWidth: 300 }}
+                        className="category-search"
                     />
                 </Col>
                 <Col>
-                    <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
+                    <Button
+                        type="primary"
+                        icon={<PlusOutlined />}
+                        onClick={handleAdd}
+                        className="add-category-btn"
+                    >
                         Add Category
                     </Button>
                 </Col>
             </Row>
 
-            {/* Your existing Categories Table component */}
-            <CategoriesTable
-                categories={filteredCategories}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
+            {/* Categories Table */}
+            <Table
+                columns={columns}
+                dataSource={filteredCategories}
+                rowKey="id"
+                pagination={{
+                    defaultCurrent: 1,
+                    defaultPageSize: 5,
+                    pageSizeOptions: [5, 10, 15],
+                    showTotal: (total) => `Total ${total} categories`,
+                }}
+                scroll={{ x: 'max-content' }}
+                rowClassName={() => 'bamboo-table-row'}
+                className="bamboo-table"
             />
 
             {/* Add/Edit Modal */}
             <Modal
                 open={isModalOpen}
-                title={editingCategory ? `Edit Category: ${editingCategory.name}` : "Add New Category"}
+                title={
+                    <div className="modal-title">
+                        {editingCategory ? `Edit Category: ${editingCategory.name}` : "Add New Category"}
+                    </div>
+                }
                 onCancel={() => {
                     setIsModalOpen(false);
                     form.resetFields();
@@ -252,11 +370,19 @@ const CategoriesManage = () => {
                 onOk={handleSubmit}
                 okText={uploading ? "Saving..." : "Save"}
                 confirmLoading={uploading}
-                okButtonProps={{ disabled: uploading }}
+                okButtonProps={{
+                    disabled: uploading,
+                    className: "save-button"
+                }}
+                cancelButtonProps={{
+                    className: "cancel-button"
+                }}
+                className="categories-modal"
             >
                 <Form
                     form={form}
                     layout="vertical"
+                    className="categories-form"
                 >
                     <Form.Item
                         name="name"
@@ -282,14 +408,14 @@ const CategoriesManage = () => {
                             {fileList.length === 0 && (
                                 <div>
                                     {uploading ? <LoadingOutlined /> : <UploadOutlined />}
-                                    <div style={{ marginTop: 8 }}>Upload</div>
+                                    <div className="upload-container">Upload</div>
                                 </div>
                             )}
                         </Upload>
                     </Form.Item>
                 </Form>
             </Modal>
-        </>
+        </div>
     );
 };
 

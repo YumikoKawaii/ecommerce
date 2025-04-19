@@ -12,8 +12,8 @@ import {
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-// Import the bamboo logo the same way as AdminLayout
 import bamboo from '../assets/bamboo.png';
+import '../css/FacingLayout.css';
 
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;
@@ -36,8 +36,8 @@ const FacingLayout = ({ children }) => {
     };
 
     const userMenu = (
-        <Menu onClick={handleMenuClick} style={{ padding: '5px 0' }}>
-            <div style={{ padding: '8px 16px', borderBottom: '1px solid #f0f0f0', marginBottom: '5px' }}>
+        <Menu onClick={handleMenuClick}>
+            <div className="user-menu-header">
                 <Typography.Text strong>{user.name}</Typography.Text>
             </div>
             <Menu.Item key="profile" icon={<UserOutlined />}>
@@ -60,66 +60,32 @@ const FacingLayout = ({ children }) => {
     );
 
     return (
-        <Layout style={{ minHeight: '100vh', width: '100vw' }}>
-            <Header style={{
-                background: '#F3F5E6',
-                padding: '12px 50px',
-                boxShadow: '0 1px 4px rgba(0, 0, 0, 0.05)',
-                height: 'auto',
-                position: 'sticky',
-                top: 0,
-                zIndex: 5
-            }}>
+        <Layout className="facing-layout">
+            <Header className="facing-header">
                 <Row gutter={[24, 8]} style={{ width: '100%' }} align="middle">
                     {/* Main header row - all elements in the same line */}
                     <Col xs={24} sm={24} md={24} lg={24}>
                         <Row gutter={[24, 0]} align="middle">
                             {/* Logo */}
                             <Col xs={24} sm={6} md={5} lg={4}>
-                                <div
-                                    style={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'flex-start',
-                                        gap: 12,
-                                        padding: '6px 12px',
-                                        height: '40px',
-                                        borderRadius: '8px',
-                                        background: 'linear-gradient(135deg, #8BC34A 0%, #558B2F 100%)',
-                                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                                        maxWidth: '200px'
-                                    }}
-                                >
+                                <div className="logo-container">
                                     <img
                                         src={bamboo}
                                         alt="Logo"
-                                        style={{
-                                            width: 28,
-                                            height: 28
-                                        }}
+                                        className="logo-image"
                                     />
                                     <Typography.Text
                                         strong
-                                        style={{
-                                            fontSize: 16,
-                                            color: 'white',
-                                            margin: 0,
-                                            whiteSpace: 'nowrap',
-                                            overflow: 'hidden',
-                                            textOverflow: 'ellipsis',
-                                            fontFamily: "'Trebuchet MS', sans-serif",
-                                            letterSpacing: '0.5px',
-                                            textShadow: '0 1px 2px rgba(0,0,0,0.2)'
-                                        }}
+                                        className="logo-text"
                                     >
                                         Bamboo Rattan
                                     </Typography.Text>
                                 </div>
                             </Col>
 
-                            {/* Search Box (larger) */}
+                            {/* Search Box */}
                             <Col xs={16} sm={12} md={13} lg={14}>
-                                <div style={{ height: '40px' }}>
+                                <div className="search-container">
                                     <Search
                                         placeholder="Search for products..."
                                         allowClear
@@ -132,43 +98,27 @@ const FacingLayout = ({ children }) => {
                             </Col>
 
                             {/* User Info */}
-                            <Col xs={4} sm={3} md={3} lg={3} style={{ textAlign: 'right', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                            <Col xs={4} sm={3} md={3} lg={3} className="user-info">
                                 <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
-                                    <div style={{
-                                        display: 'inline-flex',
-                                        alignItems: 'center',
-                                        gap: '8px',
-                                        cursor: 'pointer',
-                                        padding: '4px 8px',
-                                        borderRadius: '24px',
-                                        transition: 'all 0.3s',
-                                        justifyContent: 'flex-end',
-                                        height: '40px'
-                                    }}>
+                                    <div className="user-dropdown">
                                         <Avatar
                                             src={user.avatar}
                                             alt={user.name}
-                                            style={{
-                                                border: '2px solid #E8EECC',
-                                            }}
+                                            className="user-avatar"
                                             size={32}
                                         />
-                                        <span style={{
-                                            fontWeight: 500,
-                                            color: '#558B2F',
-                                            display: { xs: 'none', md: 'inline' }
-                                        }}>
-                      {user.name.split(' ')[0]}
-                    </span>
+                                        <span className="user-name">
+                                            {user.name.split(' ')[0]}
+                                        </span>
                                     </div>
                                 </Dropdown>
                             </Col>
 
                             {/* Cart Info */}
-                            <Col xs={4} sm={3} md={3} lg={3} style={{ textAlign: 'right', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+                            <Col xs={4} sm={3} md={3} lg={3} className="user-info">
                                 <Badge count={cartItems} size="small">
-                                    <Link to="/cart" style={{ display: 'flex', alignItems: 'center', height: '40px' }}>
-                                        <ShoppingCartOutlined style={{ fontSize: '28px', color: '#558B2F' }} />
+                                    <Link to="/cart" className="cart-link">
+                                        <ShoppingCartOutlined className="cart-icon" />
                                     </Link>
                                 </Badge>
                             </Col>
@@ -176,29 +126,24 @@ const FacingLayout = ({ children }) => {
                     </Col>
 
                     {/* Marketing info row */}
-                    <Col xs={24} sm={24} md={24} lg={24} style={{ marginTop: '2px' }}>
+                    <Col xs={24} sm={24} md={24} lg={24} className="marketing-row">
                         <Row>
                             <Col xs={0} sm={6} md={5} lg={4}>
                                 {/* Empty space matching logo column */}
                             </Col>
                             <Col xs={24} sm={18} md={19} lg={20}>
-                                <div style={{
-                                    display: 'flex',
-                                    flexWrap: 'wrap',
-                                    justifyContent: { xs: 'center', sm: 'flex-start' },
-                                    gap: '16px'
-                                }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <CarOutlined style={{ color: '#558B2F' }} />
-                                        <Text style={{ color: '#558B2F', fontSize: '12px', whiteSpace: 'nowrap' }}>Nationwide delivery</Text>
+                                <div className="marketing-container">
+                                    <div className="marketing-item">
+                                        <CarOutlined className="marketing-icon" />
+                                        <Text className="marketing-text">Nationwide delivery</Text>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <PhoneOutlined style={{ color: '#558B2F' }} />
-                                        <Text style={{ color: '#558B2F', fontSize: '12px', whiteSpace: 'nowrap' }}>Hotline: 1900 63 64 76</Text>
+                                    <div className="marketing-item">
+                                        <PhoneOutlined className="marketing-icon" />
+                                        <Text className="marketing-text">Hotline: 1900 63 64 76</Text>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                        <ClockCircleOutlined style={{ color: '#558B2F' }} />
-                                        <Text style={{ color: '#558B2F', fontSize: '12px', whiteSpace: 'nowrap' }}>9 AM – 9 PM</Text>
+                                    <div className="marketing-item">
+                                        <ClockCircleOutlined className="marketing-icon" />
+                                        <Text className="marketing-text">9 AM – 9 PM</Text>
                                     </div>
                                 </div>
                             </Col>
@@ -207,30 +152,22 @@ const FacingLayout = ({ children }) => {
                 </Row>
             </Header>
 
-            <Content style={{
-                background: '#FAFBF0',
-                minHeight: 'calc(100vh - 134px)', // Adjust for header + footer
-            }}>
+            <Content className="facing-content">
                 {children}
             </Content>
 
-            <Footer style={{
-                textAlign: 'center',
-                padding: '24px 50px',
-                background: '#F3F5E6',
-                borderTop: '1px solid #E8EECC'
-            }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', maxWidth: '1200px', margin: '0 auto' }}>
+            <Footer className="facing-footer">
+                <div className="footer-container">
                     <div>
-                        <Typography.Title level={5} style={{ color: '#558B2F' }}>Bamboo Rattan</Typography.Title>
-                        <Typography.Paragraph style={{ color: '#7D9867' }}>
+                        <Typography.Title level={5} className="footer-title">Bamboo Rattan</Typography.Title>
+                        <Typography.Paragraph className="footer-text">
                             Sustainable and beautiful products for your home.
                         </Typography.Paragraph>
                     </div>
 
                     <div>
-                        <Typography.Title level={5} style={{ color: '#558B2F' }}>Quick Links</Typography.Title>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography.Title level={5} className="footer-title">Quick Links</Typography.Title>
+                        <div className="footer-links">
                             <Link to="/">Home</Link>
                             <Link to="/products">Products</Link>
                             <Link to="/about">About Us</Link>
@@ -239,8 +176,8 @@ const FacingLayout = ({ children }) => {
                     </div>
 
                     <div>
-                        <Typography.Title level={5} style={{ color: '#558B2F' }}>Customer Service</Typography.Title>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <Typography.Title level={5} className="footer-title">Customer Service</Typography.Title>
+                        <div className="footer-links">
                             <Link to="/faq">FAQ</Link>
                             <Link to="/shipping">Shipping Info</Link>
                             <Link to="/returns">Returns</Link>
@@ -248,7 +185,7 @@ const FacingLayout = ({ children }) => {
                         </div>
                     </div>
                 </div>
-                <div style={{ marginTop: '24px', borderTop: '1px solid #E8EECC', paddingTop: '16px' }}>
+                <div className="footer-divider">
                     <Typography.Text type="secondary">
                         Bamboo Rattan ©{new Date().getFullYear()} - All Rights Reserved
                     </Typography.Text>

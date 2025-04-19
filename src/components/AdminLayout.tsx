@@ -13,7 +13,7 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import bamboo from '../assets/bamboo.png';
 import { useState, useEffect } from 'react';
-// No need to import the CSS file as it will be in App.css
+import '../css/AdmintLayout.css';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -22,20 +22,6 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const location = useLocation();
     const [collapsed, setCollapsed] = useState(false);
     const [pageTitle, setPageTitle] = useState('Dashboard');
-
-    const menuItemStyle = {
-        '& .ant-menu-item-selected': {
-            backgroundColor: '#E8EECC !important', // Light bamboo color for selected state
-            color: '#558B2F !important', // Darker bamboo green for text
-            fontWeight: 'bold'
-        },
-        '& .ant-menu-item:hover': {
-            color: '#75A742 !important' // Medium bamboo green for hover state
-        },
-        '& .ant-menu-item-selected::after': {
-            borderRightColor: '#8BC34A !important' // Bamboo green for the selection indicator
-        }
-    };
 
     // Set default collapsed state based on screen size
     useEffect(() => {
@@ -94,10 +80,10 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     };
 
     const userMenu = (
-        <Menu onClick={handleMenuClick} style={{ padding: '5px 0' }}>
-            <div style={{ padding: '8px 16px', borderBottom: '1px solid #f0f0f0', marginBottom: '5px' }}>
+        <Menu onClick={handleMenuClick}>
+            <div className="user-menu-header">
                 <Typography.Text strong>{user.name}</Typography.Text>
-                <Typography.Text type="secondary" style={{ display: 'block', fontSize: '12px' }}>{user.role}</Typography.Text>
+                <Typography.Text type="secondary" className="user-role">{user.role}</Typography.Text>
             </div>
             <Menu.Item key="profile" icon={<UserOutlined />}>
                 My Profile
@@ -113,59 +99,23 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     );
 
     return (
-        <Layout style={{ minHeight: '100vh', width: '100vw' }}>
+        <Layout className="admin-layout">
             <Sider
                 width={240}
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                style={{
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-                    zIndex: 10,
-                    height: '100vh',
-                    position: 'fixed',
-                    left: 0,
-                    overflowY: 'auto',
-                    backgroundColor: '#F8F9E8' // Light bamboo-inspired background
-                }}
+                className="admin-sider"
                 theme="light"
             >
-                <div
-                    style={{
-                        margin: '16px auto',
-                        padding: collapsed ? '8px' : '12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: collapsed ? 'center' : 'flex-start',
-                        gap: collapsed ? 0 : 12,
-                        width: collapsed ? '80%' : '85%',
-                        borderRadius: '8px',
-                        background: 'linear-gradient(135deg, #8BC34A 0%, #558B2F 100%)', // Bamboo green gradient
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                        transition: 'all 0.3s'
-                    }}
-                >
+                <div className={`logo-container ${collapsed ? 'collapsed' : ''}`}>
                     <img
                         src={bamboo}
                         alt="Logo"
-                        style={{
-                            width: collapsed ? 28 : 32,
-                            height: collapsed ? 28 : 32,
-                            transition: 'all 0.3s'
-                        }}
+                        className={`logo-image ${collapsed ? 'collapsed' : ''}`}
                     />
                     {!collapsed && (
-                        <Typography.Text
-                            strong
-                            style={{
-                                fontSize: 16,
-                                color: 'white',
-                                margin: 0,
-                                whiteSpace: 'nowrap',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis'
-                            }}
-                        >
+                        <Typography.Text strong className="logo-text">
                             Bamboo Rattan
                         </Typography.Text>
                     )}
@@ -174,117 +124,76 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     mode="inline"
                     selectedKeys={[location.pathname]}
                     defaultSelectedKeys={['/products']}
-                    style={{
-                        borderRight: 0,
-                        paddingTop: '12px',
-                        backgroundColor: '#F8F9E8', // Match sider background
-                        ...menuItemStyle
-                    }}
+                    className="admin-menu bamboo-menu"
                     theme="light"
-                    className="bamboo-menu" // Add custom class for additional styling
                 >
                     <Menu.Item key="/dashboard" icon={<DashboardOutlined />}>
-                        <Link to="/dashboard">Dashboard</Link>
+                        <Link to="/admin/dashboard">Dashboard</Link>
                     </Menu.Item>
                     <Menu.Item key="/products" icon={<AppstoreOutlined />}>
-                        <Link to="/products">Products</Link>
+                        <Link to="/admin/products">Products</Link>
                     </Menu.Item>
                     <Menu.Item key="/categories" icon={<TagsOutlined />}>
-                        <Link to="/categories">Categories</Link>
+                        <Link to="/admin/categories">Categories</Link>
                     </Menu.Item>
                     <Menu.Item key="/coupons" icon={<GiftOutlined />}>
-                        <Link to="/coupons">Coupons</Link>
+                        <Link to="/admin/coupons">Coupons</Link>
                     </Menu.Item>
                     <Menu.Item key="/suppliers" icon={<TeamOutlined />}>
-                        <Link to="/suppliers">Suppliers</Link>
+                        <Link to="/admin/suppliers">Suppliers</Link>
                     </Menu.Item>
                 </Menu>
 
                 {!collapsed && (
-                    <div style={{
-                        position: 'absolute',
-                        bottom: '60px',  // Increased bottom margin to avoid overlap with collapse button
-                        left: '20px',
-                        right: '20px',
-                        padding: '16px',
-                        background: '#ECF3D3', // Light bamboo color
-                        borderRadius: '8px',
-                        border: '1px solid #B7CA79', // Bamboo stem color
-                        zIndex: 1  // Ensure it appears above the collapse button
-                    }}>
-                        <Typography.Text strong style={{ display: 'block', marginBottom: '4px' }}>Need Help?</Typography.Text>
-                        <Typography.Text style={{ fontSize: '12px' }}>
+                    <div className="help-box">
+                        <Typography.Text strong className="help-title">Need Help?</Typography.Text>
+                        <Typography.Text className="help-text">
                             Check our documentation or contact support for assistance.
                         </Typography.Text>
                     </div>
                 )}
             </Sider>
 
-            <Layout style={{ marginLeft: collapsed ? 80 : 240, transition: 'all 0.3s', width: 'calc(100vw - ' + (collapsed ? 80 : 240) + 'px)' }}>
-                <Header style={{
-                    background: '#F3F5E6', // Very light bamboo color for header
-                    padding: '0 24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    boxShadow: '0 1px 4px rgba(0, 0, 0, 0.05)',
-                    height: '64px',
-                    position: 'sticky',
-                    top: 0,
-                    zIndex: 5
-                }}>
+            <Layout
+                className="main-layout"
+                style={{
+                    marginLeft: collapsed ? 80 : 240,
+                    width: `calc(100vw - ${collapsed ? 80 : 240}px)`
+                }}
+            >
+                <Header className="admin-header">
                     <div>
-                        <Title level={4} style={{ margin: 0 }}>{pageTitle}</Title>
+                        <Title level={4} className="page-title">{pageTitle}</Title>
                     </div>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div className="header-actions">
                         <Badge count={5} size="small">
-                            <BellOutlined style={{ fontSize: '20px', cursor: 'pointer' }} />
+                            <BellOutlined className="notification-icon" />
                         </Badge>
 
                         <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
-                            <div style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                cursor: 'pointer',
-                                padding: '4px 8px',
-                                borderRadius: '24px',
-                                transition: 'all 0.3s',
-                                '&:hover': {
-                                    background: '#f5f5f5'
-                                }
-                            }}>
+                            <div className="user-dropdown">
                                 <Avatar
                                     src={user.avatar}
                                     alt={user.name}
-                                    style={{
-                                        border: '2px solid #f0f0f0',
-                                    }}
+                                    className="user-avatar"
                                     size="default"
                                 />
-                                <span style={{ fontWeight: 500 }}>{user.name.split(' ')[0]}</span>
+                                <span className="user-name">{user.name.split(' ')[0]}</span>
                             </div>
                         </Dropdown>
                     </div>
                 </Header>
 
-                <div style={{ padding: '16px 24px 0', background: '#F3F5E6' }}>
+                <div className="breadcrumb-container">
                     <Breadcrumb items={getBreadcrumbItems()} />
                 </div>
 
-                <Content style={{
-                    margin: '16px',
-                    minHeight: 280,
-                    background: '#FAFBF0', // Very light bamboo color for content
-                    padding: '24px',
-                    borderRadius: '8px',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)'
-                }}>
+                <Content className="admin-content">
                     {children}
                 </Content>
 
-                <Footer style={{ textAlign: 'center', padding: '12px 50px', background: '#F3F5E6' }}>
+                <Footer className="admin-footer">
                     <Typography.Text type="secondary">
                         Bamboo Rattan Admin ©{new Date().getFullYear()} - Created with ❤️ for Quality Management
                     </Typography.Text>
