@@ -292,9 +292,9 @@ const ProductsManage = (): JSX.Element => {
                         className="product-image"
                     />
                     <div className="product-info">
-                        <Text strong className="product-name">{record.name}</Text>
-                        <Text type="secondary" ellipsis className="product-description">
-                            {record.description?.substring(0, 60)}{record.description?.length > 60 ? '...' : ''}
+                        <Text strong className="product-name" ellipsis>{record.name}</Text>
+                        <Text type="secondary" ellipsis={{ rows: 2 }} className="product-description">
+                            {record.description || 'No description available'}
                         </Text>
                     </div>
                 </div>

@@ -109,34 +109,49 @@
 }
 
 /* Product table styles */
-.product-image {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #E8EECC;
-}
-
 .product-info-container {
     display: flex;
     align-items: center;
     gap: 16px;
+    min-width: 200px;
+    max-width: 100%;
+}
+
+.product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #E8EECC;
+    flex-shrink: 0;
 }
 
 .product-info {
     display: flex;
     flex-direction: column;
+    min-width: 0; /* Important for text-overflow to work with flexbox */
+    flex: 1;
 }
 
 .product-name {
     font-size: 16px;
-    display: block;
+    margin-bottom: 4px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     color: #558B2F;
     font-weight: bold;
 }
 
 .product-description {
-    max-width: 230px;
+    font-size: 12px;
+    width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
 }
 
 .product-price {
@@ -173,6 +188,39 @@
     color: #ff4d4f;
     border-color: #ffa39e;
     background: #fff1f0;
+}
+
+/* Make the table responsive */
+.bamboo-table {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* Ensure columns have appropriate widths on different screen sizes */
+@media (max-width: 992px) {
+    .product-info-container {
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 768px) {
+    .product-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .product-name {
+        font-size: 14px;
+    }
+
+    .product-description {
+        font-size: 11px;
+    }
+}
+
+/* Tooltip for truncated text */
+.ant-typography-ellipsis-single-line:hover {
+    cursor: pointer;
 }
 
 /* Modal styles */
