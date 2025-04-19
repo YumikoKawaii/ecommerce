@@ -4,15 +4,14 @@ import {
     ShoppingCartOutlined,
     HeartOutlined,
     LogoutOutlined,
-    SettingOutlined,
     SearchOutlined,
     PhoneOutlined,
     CarOutlined,
     ClockCircleOutlined
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import bamboo from '../assets/bamboo.png';
+import haru_bamboo from '../assets/haru_bamboo.png';
 import '../css/FacingLayout.css';
 
 const { Header, Footer, Content } = Layout;
@@ -20,6 +19,8 @@ const { Title, Text } = Typography;
 const { Search } = Input;
 
 const FacingLayout = ({ children }) => {
+    const navigate = useNavigate(); // Add this to use navigation
+
     // Dummy user data, replace with actual user context or API call
     const user = {
         name: 'Yumiko Sturluson',
@@ -32,6 +33,12 @@ const FacingLayout = ({ children }) => {
         // Handle menu item click, such as logout or profile
         if (e.key === 'logout') {
             console.log('Logging out...');
+        } else if (e.key === 'profile') {
+            navigate('/profile'); // Navigate to profile page when clicked
+        } else if (e.key === 'orders') {
+            navigate('/orders');
+        } else if (e.key === 'wishlist') {
+            navigate('/wishlist');
         }
     };
 
@@ -49,9 +56,6 @@ const FacingLayout = ({ children }) => {
             <Menu.Item key="wishlist" icon={<HeartOutlined />}>
                 Wishlist
             </Menu.Item>
-            <Menu.Item key="settings" icon={<SettingOutlined />}>
-                Settings
-            </Menu.Item>
             <Menu.Divider />
             <Menu.Item key="logout" icon={<LogoutOutlined />} danger>
                 Logout
@@ -62,29 +66,24 @@ const FacingLayout = ({ children }) => {
     return (
         <Layout className="facing-layout">
             <Header className="facing-header">
-                <Row gutter={[24, 8]} style={{ width: '100%' }} align="middle">
-                    {/* Main header row - all elements in the same line */}
-                    <Col xs={24} sm={24} md={24} lg={24}>
-                        <Row gutter={[24, 0]} align="middle">
-                            {/* Logo */}
-                            <Col xs={24} sm={6} md={5} lg={4}>
-                                <div className="logo-container">
-                                    <img
-                                        src={bamboo}
-                                        alt="Logo"
-                                        className="logo-image"
-                                    />
-                                    <Typography.Text
-                                        strong
-                                        className="logo-text"
-                                    >
-                                        Bamboo Rattan
-                                    </Typography.Text>
-                                </div>
-                            </Col>
+                <Row gutter={[24, 8]} style={{ width: '100%' }}>
+                    <Col xs={24} sm={6} md={5} lg={4} className="logo-column">
+                        <div className="logo-container">
+                            <Link to="/" >
+                                <img
+                                    src={haru_bamboo}
+                                    alt="Haru Bamboo Logo"
+                                    className="logo-image"
+                                />
+                            </Link>
+                        </div>
+                    </Col>
 
+                    <Col xs={24} sm={18} md={19} lg={20}>
+                        {/* First row: Search, User, Cart */}
+                        <Row gutter={[16, 0]} align="middle" className="header-top-row">
                             {/* Search Box */}
-                            <Col xs={16} sm={12} md={13} lg={14}>
+                            <Col xs={16} sm={18} md={18} lg={18}>
                                 <div className="search-container">
                                     <Search
                                         placeholder="Search for products..."
@@ -108,8 +107,8 @@ const FacingLayout = ({ children }) => {
                                             size={32}
                                         />
                                         <span className="user-name">
-                                            {user.name.split(' ')[0]}
-                                        </span>
+                            {user.name.split(' ')[0]}
+                        </span>
                                     </div>
                                 </Dropdown>
                             </Col>
@@ -123,15 +122,10 @@ const FacingLayout = ({ children }) => {
                                 </Badge>
                             </Col>
                         </Row>
-                    </Col>
 
-                    {/* Marketing info row */}
-                    <Col xs={24} sm={24} md={24} lg={24} className="marketing-row">
-                        <Row>
-                            <Col xs={0} sm={6} md={5} lg={4}>
-                                {/* Empty space matching logo column */}
-                            </Col>
-                            <Col xs={24} sm={18} md={19} lg={20}>
+                        {/* Second row: Marketing info */}
+                        <Row className="marketing-row">
+                            <Col span={24}>
                                 <div className="marketing-container">
                                     <div className="marketing-item">
                                         <CarOutlined className="marketing-icon" />

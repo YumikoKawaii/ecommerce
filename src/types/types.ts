@@ -33,3 +33,12 @@ export interface Coupon {
     startDate: string,
     endDate: string,
 }
+
+export interface User {
+    id: number,
+    username: string,
+    imageUrl: string,
+    email: string,
+    phoneNumber: string,
+    address: string,
+}

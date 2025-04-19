@@ -9,7 +9,7 @@
 /* Header */
 .facing-header {
     background: #F3F5E6;
-    padding: 12px 50px;
+    padding: 15px 50px; /* Slightly increased padding for better spacing */
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
     height: auto;
     position: sticky;
@@ -17,36 +17,29 @@
     z-index: 5;
 }
 
-/* Logo container */
-.logo-container {
+.logo-column {
+    height: 72px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
-    padding: 6px 12px;
-    height: 40px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, #8BC34A 0%, #558B2F 100%);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    max-width: 200px;
+    justify-content: center;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 .logo-image {
-    width: 28px;
-    height: 28px;
+    display: flex;
+    width: auto;
+    height: 72px; /* Adjusted height for better proportions */
 }
 
-.logo-text {
-    font-size: 16px;
-    color: white;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: 'Trebuchet MS', sans-serif;
-    letter-spacing: 0.5px;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    font-weight: bold;
+/* Header rows */
+.header-top-row {
+    margin-bottom: 10px;
 }
 
 /* Search */
@@ -199,6 +192,18 @@
 
     .marketing-container {
         justify-content: center;
+    }
+
+    /* Make logo appropriately sized on mobile */
+    .logo-image {
+        height: 70px;
+    }
+
+    /* On mobile, logo doesn't need to span rows */
+    .logo-column {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
     }
 }
 
