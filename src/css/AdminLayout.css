@@ -1,0 +1,204 @@
+/* AdminLayout.css */
+
+/* Layout styles */
+.admin-main-layout {
+    min-height: 100vh;
+    width: 100vw;
+}
+
+/* Sider styles */
+.admin-sidebar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    overflow-y: auto;
+    background-color: #F8F9E8;
+}
+
+/* Custom scrollbar for sidebar */
+.admin-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background-color: #B7CA79;
+    border-radius: 10px;
+}
+
+.admin-sidebar::-webkit-scrollbar-track {
+    background-color: #F8F9E8;
+}
+
+/* Make the collapse trigger match the theme */
+.ant-layout-sider-trigger {
+    background-color: #8BC34A !important;
+}
+
+/* Logo container */
+.admin-logo-container {
+    margin: 16px auto;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 85%;
+    border-radius: 8px;
+    background: #F8F9E8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.admin-logo-container.admin-collapsed {
+    padding: 8px;
+    width: 80%;
+}
+
+.admin-logo-image {
+    width: auto;
+    height: 60px;
+    transition: all 0.3s;
+}
+
+.admin-logo-image.admin-collapsed {
+    width: auto;
+    height: 32px;
+}
+
+/* Menu styles */
+.admin-nav-menu {
+    border-right: 0;
+    padding-top: 12px;
+    background-color: #F8F9E8;
+}
+
+/* Help box */
+.admin-help-box {
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    right: 20px;
+    padding: 16px;
+    background: #ECF3D3;
+    border-radius: 8px;
+    border: 1px solid #B7CA79;
+    z-index: 1;
+}
+
+.admin-help-title {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.admin-help-text {
+    font-size: 12px;
+}
+
+/* Main layout */
+.admin-content-layout {
+    transition: all 0.3s;
+}
+
+/* Header */
+.admin-top-header {
+    background: #F3F5E6;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.admin-page-title {
+    margin: 0;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-notification-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.admin-user-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 24px;
+    transition: all 0.3s;
+}
+
+.admin-user-dropdown:hover {
+    background: #f5f5f5;
+}
+
+.admin-user-avatar {
+    border: 2px solid #f0f0f0;
+}
+
+.admin-user-name {
+    font-weight: 500;
+}
+
+/* User menu */
+.admin-user-menu-header {
+    padding: 8px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 5px;
+}
+
+.admin-user-role {
+    display: block;
+    font-size: 12px;
+}
+
+/* Breadcrumb container */
+.admin-breadcrumb-container {
+    padding: 16px 24px 0;
+    background: #F3F5E6;
+}
+
+/* Content */
+.admin-main-content {
+    margin: 16px;
+    min-height: 280px;
+    background: #FAFBF0;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Footer */
+.admin-bottom-footer {
+    text-align: center;
+    padding: 12px 50px;
+    background: #F3F5E6;
+}
+
+/* Media queries for responsive layout */
+@media (max-width: 768px) {
+    .admin-user-name {
+        display: none;
+    }
+
+    .admin-top-header {
+        padding: 0 15px;
+    }
+
+    .admin-main-content {
+        margin: 8px;
+        padding: 16px;
+    }
+}

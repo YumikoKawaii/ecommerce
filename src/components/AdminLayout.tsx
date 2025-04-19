@@ -11,9 +11,9 @@ import {
     DashboardOutlined
 } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
-import bamboo from '../assets/bamboo.png';
+import haru_bamboo from '../assets/haru_bamboo.png';
 import { useState, useEffect } from 'react';
-import '../css/AdmintLayout.css';
+import '../css/AdminLayout.css';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;
@@ -81,9 +81,9 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
 
     const userMenu = (
         <Menu onClick={handleMenuClick}>
-            <div className="user-menu-header">
+            <div className="admin-user-menu-header">
                 <Typography.Text strong>{user.name}</Typography.Text>
-                <Typography.Text type="secondary" className="user-role">{user.role}</Typography.Text>
+                <Typography.Text type="secondary" className="admin-user-role">{user.role}</Typography.Text>
             </div>
             <Menu.Item key="profile" icon={<UserOutlined />}>
                 My Profile
@@ -99,32 +99,27 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     );
 
     return (
-        <Layout className="admin-layout">
+        <Layout className="admin-main-layout">
             <Sider
                 width={240}
                 collapsible
                 collapsed={collapsed}
                 onCollapse={(value) => setCollapsed(value)}
-                className="admin-sider"
+                className="admin-sidebar"
                 theme="light"
             >
-                <div className={`logo-container ${collapsed ? 'collapsed' : ''}`}>
+                <div className={`admin-logo-container ${collapsed ? 'admin-collapsed' : ''}`}>
                     <img
-                        src={bamboo}
+                        src={haru_bamboo}
                         alt="Logo"
-                        className={`logo-image ${collapsed ? 'collapsed' : ''}`}
+                        className={`admin-logo-image ${collapsed ? 'admin-collapsed' : ''}`}
                     />
-                    {!collapsed && (
-                        <Typography.Text strong className="logo-text">
-                            Bamboo Rattan
-                        </Typography.Text>
-                    )}
                 </div>
                 <Menu
                     mode="inline"
                     selectedKeys={[location.pathname]}
                     defaultSelectedKeys={['/products']}
-                    className="admin-menu bamboo-menu"
+                    className="admin-nav-menu bamboo-menu"
                     theme="light"
                 >
                     <Menu.Item key="/dashboard" icon={<DashboardOutlined />}>
@@ -144,56 +139,48 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                     </Menu.Item>
                 </Menu>
 
-                {!collapsed && (
-                    <div className="help-box">
-                        <Typography.Text strong className="help-title">Need Help?</Typography.Text>
-                        <Typography.Text className="help-text">
-                            Check our documentation or contact support for assistance.
-                        </Typography.Text>
-                    </div>
-                )}
             </Sider>
 
             <Layout
-                className="main-layout"
+                className="admin-content-layout"
                 style={{
                     marginLeft: collapsed ? 80 : 240,
                     width: `calc(100vw - ${collapsed ? 80 : 240}px)`
                 }}
             >
-                <Header className="admin-header">
+                <Header className="admin-top-header">
                     <div>
-                        <Title level={4} className="page-title">{pageTitle}</Title>
+                        <Title level={4} className="admin-page-title">{pageTitle}</Title>
                     </div>
 
-                    <div className="header-actions">
+                    <div className="admin-header-actions">
                         <Badge count={5} size="small">
-                            <BellOutlined className="notification-icon" />
+                            <BellOutlined className="admin-notification-icon" />
                         </Badge>
 
                         <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
-                            <div className="user-dropdown">
+                            <div className="admin-user-dropdown">
                                 <Avatar
                                     src={user.avatar}
                                     alt={user.name}
-                                    className="user-avatar"
+                                    className="admin-user-avatar"
                                     size="default"
                                 />
-                                <span className="user-name">{user.name.split(' ')[0]}</span>
+                                <span className="admin-user-name">{user.name.split(' ')[0]}</span>
                             </div>
                         </Dropdown>
                     </div>
                 </Header>
 
-                <div className="breadcrumb-container">
+                <div className="admin-breadcrumb-container">
                     <Breadcrumb items={getBreadcrumbItems()} />
                 </div>
 
-                <Content className="admin-content">
+                <Content className="admin-main-content">
                     {children}
                 </Content>
 
-                <Footer className="admin-footer">
+                <Footer className="admin-bottom-footer">
                     <Typography.Text type="secondary">
                         Bamboo Rattan Admin ©{new Date().getFullYear()} - Created with ❤️ for Quality Management
                     </Typography.Text>
