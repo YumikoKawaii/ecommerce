@@ -32,7 +32,6 @@ import {
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
 import { Category } from "../types/types.ts";
 import { fetchCategories } from "../services/categoriesService.ts";
-import "../css/AdminCategories.css";
 
 const { Text, Title } = Typography;
 

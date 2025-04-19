@@ -19,7 +19,6 @@ import {
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import FacingLayout from '../components/FacingLayout';
-import '../css/Carts.css';
 import {Cart, Product} from "../types/types.ts";
 import {fetchProducts} from "../services/productsService.ts";
 import {fetchCarts} from "../services/cartsService.ts";

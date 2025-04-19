@@ -13,7 +13,6 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import haru_bamboo from '../assets/haru_bamboo.png';
 import { useState, useEffect } from 'react';
-import '../css/AdminLayout.css';
 
 const { Header, Sider, Content, Footer } = Layout;
 const { Title } = Typography;

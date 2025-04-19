@@ -26,7 +26,6 @@ import FacingLayout from '../components/FacingLayout';
 import { Product, Category } from '../types/types';
 import { fetchProducts } from "../services/productsService";
 import { fetchCategories } from "../services/categoriesService";
-import '../css/ProductDetail.css';
 
 const { Title, Paragraph, Text } = Typography;
 const { TabPane } = Tabs;

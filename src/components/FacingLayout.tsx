@@ -12,7 +12,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import haru_bamboo from '../assets/haru_bamboo.png';
-import '../css/FacingLayout.css';
 
 const { Header, Footer, Content } = Layout;
 const { Title, Text } = Typography;

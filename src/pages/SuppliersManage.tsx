@@ -11,7 +11,6 @@ import {
 } from "@ant-design/icons";
 import { Supplier } from "../types/types.ts";
 import { fetchSuppliers } from "../services/suppliersService.ts";
-import "../css/AdminSuppliers.css";
 
 const { Text } = Typography;
 

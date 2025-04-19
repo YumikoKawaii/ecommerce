@@ -38,7 +38,6 @@ import type { Coupon, Product } from "../types/types";
 import { fetchCoupons } from "../services/couponsService";
 import { fetchProducts } from "../services/productsService";
 import dayjs from "dayjs";
-import "../css/AdminCoupons.css";
 
 const { RangePicker } = DatePicker;
 const { Title, Text } = Typography;

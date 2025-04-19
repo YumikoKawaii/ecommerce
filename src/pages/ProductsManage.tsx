@@ -38,7 +38,6 @@ import { Product, Category, Supplier } from "../types/types";
 import { fetchProducts } from "../services/productsService";
 import { fetchSuppliers } from "../services/suppliersService";
 import { fetchCategories } from "../services/categoriesService";
-import '../css/AdminProducts.css';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -485,7 +484,7 @@ const ProductsManage = (): JSX.Element => {
                 </Row>
 
                 <Card className="filters-card">
-                    <Row gutter={[16, 16]} align="middle">
+                    <Row gutter={[16, 16]} align="middle" className="filters-row">
                         <Col xs={24} md={12} lg={8}>
                             <Input.Search
                                 placeholder="Search products by name"
@@ -508,7 +507,6 @@ const ProductsManage = (): JSX.Element => {
                                         allowClear
                                         value={selectedCategory}
                                         onChange={handleCategoryChange}
-                                        className="bamboo-select"
                                     >
                                         {categories.map(category => (
                                             <Option key={category.id} value={category.id}>
@@ -524,7 +522,6 @@ const ProductsManage = (): JSX.Element => {
                                         allowClear
                                         value={selectedSupplier}
                                         onChange={handleSupplierChange}
-                                        className="bamboo-select"
                                     >
                                         {suppliers.map(supplier => (
                                             <Option key={supplier.id} value={supplier.id}>
@@ -616,12 +613,10 @@ const ProductsManage = (): JSX.Element => {
                     className: "cancel-btn"
                 }}
                 width={700}
-                className="bamboo-modal"
             >
                 <Form
                     form={form}
                     layout="vertical"
-                    className="bamboo-form"
                 >
                     <Divider className="modal-divider" />
 
