@@ -1,12 +1,40 @@
 import { useEffect, useState } from "react";
-import { Input, Button, Row, Col, Spin, Modal, Form, Upload, message, Table, Space, Tooltip, Tag, Typography } from "antd";
-import { PlusOutlined, UploadOutlined, LoadingOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+    Input,
+    Button,
+    Row,
+    Col,
+    Spin,
+    Modal,
+    Form,
+    Upload,
+    message,
+    Table,
+    Space,
+    Tooltip,
+    Tag,
+    Typography,
+    Card,
+    Divider,
+    Badge,
+} from "antd";
+import {
+    PlusOutlined,
+    UploadOutlined,
+    LoadingOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    SearchOutlined,
+    FilterOutlined,
+    AppstoreOutlined,
+    TagsOutlined
+} from "@ant-design/icons";
 import type { UploadFile, UploadProps } from "antd/es/upload/interface";
 import { Category } from "../types/types.ts";
 import { fetchCategories } from "../services/categoriesService.ts";
 import "../css/AdminCategories.css";
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 const CategoriesManage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -145,6 +173,11 @@ const CategoriesManage = () => {
         }
     };
 
+    // Reset search
+    const resetSearch = () => {
+        setSearchTerm("");
+    };
+
     // Handle file change - FIXED to properly handle file changes
     const handleFileChange = ({ fileList }) => {
         // Update the fileList directly with what the Upload component provides
@@ -208,6 +241,14 @@ const CategoriesManage = () => {
         },
     };
 
+    // Generate random product count for demo purposes
+    const getRandomProductCount = (categoryId: number) => {
+        // Use a deterministic random generator based on the ID
+        // to ensure the same category always shows the same count
+        const seed = categoryId % 30;
+        return seed + Math.floor(seed / 3);
+    };
+
     // Table columns configuration
     const columns = [
         {
@@ -234,16 +275,12 @@ const CategoriesManage = () => {
                         className="category-image"
                     />
                     <div className="category-text-container">
-                        <Tooltip title={record.name}>
-                            <Text strong className="category-name" ellipsis>
-                                {record.name}
-                            </Text>
-                        </Tooltip>
-                        <Tooltip title={record.description || 'No description'}>
-                            <Text type="secondary" className="category-description" ellipsis>
-                                {record.description || 'No description'}
-                            </Text>
-                        </Tooltip>
+                        <Text strong className="category-name" ellipsis>
+                            {record.name}
+                        </Text>
+                        <Text type="secondary" className="category-description" ellipsis={{ rows: 2 }}>
+                            {record.description || 'No description'}
+                        </Text>
                     </div>
                 </div>
             ),
@@ -253,11 +290,16 @@ const CategoriesManage = () => {
             key: 'products',
             width: 120,
             align: 'center' as const,
-            render: () => {
-                // Placeholder for product count - in a real app, you would calculate this
-                const count = Math.floor(Math.random() * 20); // Just for demo
+            sorter: (a: Category, b: Category) => getRandomProductCount(a.id) - getRandomProductCount(b.id),
+            render: (record: Category) => {
+                // Get a consistent count for each category
+                const count = getRandomProductCount(record.id);
+                const status = count < 5 ? 'low' : count < 15 ? 'medium' : 'high';
+
                 return (
-                    <Tag className="products-count-tag">
+                    <Tag
+                        className={`products-count-tag products-count-${status}`}
+                    >
                         {count} products
                     </Tag>
                 );
@@ -306,37 +348,127 @@ const CategoriesManage = () => {
 
     // Filter categories based on search term
     const filteredCategories = categories.filter(category =>
-        category.name.toLowerCase().includes(searchTerm)
+        category.name.toLowerCase().includes(searchTerm) ||
+        (category.description && category.description.toLowerCase().includes(searchTerm))
     );
 
+    // Calculate stats
+    const totalCategories = categories.length;
+    const totalProducts = categories.reduce((sum, category) => sum + getRandomProductCount(category.id), 0);
+    const lowStockCategories = categories.filter(category => getRandomProductCount(category.id) < 5).length;
+
     if (loading) {
-        return <Spin tip="Loading..." className="loading-spinner" />;
+        return (
+            <div className="loading-container">
+                <Spin
+                    tip="Loading categories..."
+                    size="large"
+                    className="loading-spinner"
+                    indicator={<LoadingOutlined className="loading-icon" spin />}
+                />
+            </div>
+        );
     }
 
     return (
         <div className="categories-section">
+            <div className="categories-header">
+                <Title level={4} className="page-title">Categories Management</Title>
+
+                {/* Stats Cards */}
+                <Row gutter={16} className="stats-row">
+                    <Col xs={24} sm={8}>
+                        <Card className="stats-card stats-card-default">
+                            <div className="stats-content">
+                                <div>
+                                    <Text type="secondary">Total Categories</Text>
+                                    <Title level={3} className="stats-value">{totalCategories}</Title>
+                                </div>
+                                <AppstoreOutlined className="stats-icon" />
+                            </div>
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={8}>
+                        <Card className="stats-card stats-card-green">
+                            <div className="stats-content">
+                                <div>
+                                    <Text type="secondary">Total Products</Text>
+                                    <Title level={3} className="stats-value">{totalProducts} items</Title>
+                                </div>
+                                <TagsOutlined className="stats-icon" />
+                            </div>
+                        </Card>
+                    </Col>
+                    <Col xs={24} sm={8}>
+                        <Card className={`stats-card ${lowStockCategories > 0 ? 'stats-card-warning' : 'stats-card-green'}`}>
+                            <div className="stats-content">
+                                <div>
+                                    <Text type="secondary">Low Stock Categories</Text>
+                                    <Title level={3} className={lowStockCategories > 0 ? "stats-value-warning" : "stats-value"}>
+                                        {lowStockCategories}
+                                    </Title>
+                                </div>
+                                <Badge count={lowStockCategories} color={lowStockCategories > 0 ? '#FF8F00' : '#8BC34A'}>
+                                    <FilterOutlined className={lowStockCategories > 0 ? "stats-icon-warning" : "stats-icon"} />
+                                </Badge>
+                            </div>
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
+
             {/* Search and Add button row */}
-            <Row className="search-add-container">
-                <Col flex="auto">
-                    <Input.Search
-                        placeholder="Search categories"
-                        allowClear
-                        enterButton
-                        onSearch={handleSearch}
-                        className="category-search"
-                    />
-                </Col>
-                <Col>
-                    <Button
-                        type="primary"
-                        icon={<PlusOutlined />}
-                        onClick={handleAdd}
-                        className="add-category-btn"
-                    >
-                        Add Category
-                    </Button>
-                </Col>
-            </Row>
+            <Card className="filters-card">
+                <Row gutter={[16, 16]} align="middle">
+                    <Col xs={24} md={18} lg={16}>
+                        <Input.Search
+                            placeholder="Search by category name or description"
+                            allowClear
+                            enterButton={<SearchOutlined />}
+                            onSearch={handleSearch}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="category-search"
+                        />
+                    </Col>
+
+                    <Col xs={12} md={3} lg={4}>
+                        <Tooltip title="Reset search">
+                            <Button
+                                onClick={resetSearch}
+                                icon={<FilterOutlined />}
+                                className="reset-filter-btn"
+                                disabled={!searchTerm}
+                            >
+                                Reset
+                            </Button>
+                        </Tooltip>
+                    </Col>
+
+                    <Col xs={12} md={3} lg={4} style={{ textAlign: 'right' }}>
+                        <Button
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            onClick={handleAdd}
+                            className="add-category-btn"
+                        >
+                            Add Category
+                        </Button>
+                    </Col>
+                </Row>
+            </Card>
+
+            {/* Display category count */}
+            <div className="filter-results">
+                <Text className="filter-count">
+                    Showing {filteredCategories.length} of {categories.length} categories
+                </Text>
+                {searchTerm && (
+                    <Text type="secondary">
+                        Search term: "{searchTerm}"
+                    </Text>
+                )}
+            </div>
 
             {/* Categories Table */}
             <Table
@@ -346,12 +478,13 @@ const CategoriesManage = () => {
                 pagination={{
                     defaultCurrent: 1,
                     defaultPageSize: 5,
-                    pageSizeOptions: [5, 10, 15],
+                    pageSizeOptions: ['5', '10', '15'],
                     showTotal: (total) => `Total ${total} categories`,
                 }}
                 scroll={{ x: 'max-content' }}
                 rowClassName={() => 'bamboo-table-row'}
                 className="bamboo-table"
+                locale={{ emptyText: 'No categories found' }}
             />
 
             {/* Add/Edit Modal */}
@@ -378,7 +511,10 @@ const CategoriesManage = () => {
                     className: "cancel-button"
                 }}
                 className="categories-modal"
+                width={600}
             >
+                <Divider className="modal-divider" />
+
                 <Form
                     form={form}
                     layout="vertical"

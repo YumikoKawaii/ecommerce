@@ -281,6 +281,18 @@ const ProductsManage = (): JSX.Element => {
     // Table columns configuration
     const columns = [
         {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: 80,
+            align: 'center' as const,
+            render: (id: number) => (
+                <Tag className="id-tag">
+                    {id}
+                </Tag>
+            ),
+        },
+        {
             title: 'Product',
             key: 'product',
             width: 350,

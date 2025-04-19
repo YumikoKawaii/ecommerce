@@ -227,6 +227,18 @@ const CouponsManage = () => {
     // Table columns configuration
     const columns = [
         {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            width: 80,
+            align: 'center' as const,
+            render: (id: number) => (
+                <Tag className="id-tag">
+                    {id}
+                </Tag>
+            ),
+        },
+        {
             title: 'Coupon',
             key: 'coupon',
             width: 300,
