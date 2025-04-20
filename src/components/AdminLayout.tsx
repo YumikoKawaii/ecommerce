@@ -107,13 +107,15 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
                 className="admin-sidebar"
                 theme="light"
             >
-                <div className={`admin-logo-container ${collapsed ? 'admin-collapsed' : ''}`}>
-                    <img
-                        src={haru_bamboo}
-                        alt="Logo"
-                        className={`admin-logo-image ${collapsed ? 'admin-collapsed' : ''}`}
-                    />
-                </div>
+                <Link to="/" >
+                    <div className={`admin-logo-container ${collapsed ? 'admin-collapsed' : ''}`}>
+                        <img
+                            src={haru_bamboo}
+                            alt="Logo"
+                            className={`admin-logo-image ${collapsed ? 'admin-collapsed' : ''}`}
+                        />
+                    </div>
+                </Link>
                 <Menu
                     mode="inline"
                     selectedKeys={[location.pathname]}
