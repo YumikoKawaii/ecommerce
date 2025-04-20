@@ -292,22 +292,29 @@ const ProductsManage = (): JSX.Element => {
             ),
         },
         {
+            title: 'Image',
+            key: 'image',
+            width: 80,
+            align: 'center' as const,
+            render: (_: string, record: Product) => (
+                <img
+                    src={record.imageUrl}
+                    alt={record.name}
+                    className="product-image"
+                    style={{ width: "40px", height: "40px" }}
+                />
+            ),
+        },
+        {
             title: 'Product',
             key: 'product',
-            width: 350,
+            width: 250,
             render: (_: string, record: Product) => (
-                <div className="product-info-container">
-                    <img
-                        src={record.imageUrl}
-                        alt={record.name}
-                        className="product-image"
-                    />
-                    <div className="product-info">
-                        <Text strong className="product-name" ellipsis>{record.name}</Text>
-                        <Text type="secondary" ellipsis={{ rows: 2 }} className="product-description">
-                            {record.description || 'No description available'}
-                        </Text>
-                    </div>
+                <div className="product-info">
+                    <Text strong className="product-name" ellipsis>{record.name}</Text>
+                    <Text type="secondary" ellipsis={{ rows: 2 }} className="product-description">
+                        {record.description || 'No description available'}
+                    </Text>
                 </div>
             ),
         },
@@ -484,7 +491,7 @@ const ProductsManage = (): JSX.Element => {
                 </Row>
 
                 <Card className="filters-card">
-                    <Row gutter={[16, 16]} align="middle" className="filters-row">
+                    <Row gutter={[16, 16]} align="middle">
                         <Col xs={24} md={12} lg={8}>
                             <Input.Search
                                 placeholder="Search products by name"
@@ -507,6 +514,7 @@ const ProductsManage = (): JSX.Element => {
                                         allowClear
                                         value={selectedCategory}
                                         onChange={handleCategoryChange}
+                                        className="bamboo-select"
                                     >
                                         {categories.map(category => (
                                             <Option key={category.id} value={category.id}>
@@ -522,6 +530,7 @@ const ProductsManage = (): JSX.Element => {
                                         allowClear
                                         value={selectedSupplier}
                                         onChange={handleSupplierChange}
+                                        className="bamboo-select"
                                     >
                                         {suppliers.map(supplier => (
                                             <Option key={supplier.id} value={supplier.id}>
@@ -613,10 +622,12 @@ const ProductsManage = (): JSX.Element => {
                     className: "cancel-btn"
                 }}
                 width={700}
+                className="bamboo-modal"
             >
                 <Form
                     form={form}
                     layout="vertical"
+                    className="bamboo-form"
                 >
                     <Divider className="modal-divider" />
 

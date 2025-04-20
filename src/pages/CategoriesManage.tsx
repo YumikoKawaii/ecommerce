@@ -263,24 +263,31 @@ const CategoriesManage = () => {
             ),
         },
         {
+            title: 'Image',
+            key: 'image',
+            width: 80,
+            align: 'center' as const,
+            render: (record: Category) => (
+                <img
+                    src={record.imageUrl}
+                    alt={record.name}
+                    className="category-image"
+                    style={{ width: "40px", height: "40px" }}
+                />
+            ),
+        },
+        {
             title: 'Category',
             key: 'category',
-            width: 350,
+            width: 200,
             render: (record: Category) => (
-                <div className="category-info-container">
-                    <img
-                        src={record.imageUrl}
-                        alt={record.name}
-                        className="category-image"
-                    />
-                    <div className="category-text-container">
-                        <Text strong className="category-name" ellipsis>
-                            {record.name}
-                        </Text>
-                        <Text type="secondary" className="category-description" ellipsis={{ rows: 2 }}>
-                            {record.description || 'No description'}
-                        </Text>
-                    </div>
+                <div className="category-text-container">
+                    <Text strong className="category-name" ellipsis>
+                        {record.name}
+                    </Text>
+                    <Text type="secondary" className="category-description" ellipsis={{ rows: 2 }}>
+                        {record.description || 'No description'}
+                    </Text>
                 </div>
             ),
         },
@@ -315,7 +322,7 @@ const CategoriesManage = () => {
                     {description || 'No description available'}
                 </Text>
             ),
-            width: 300,
+            width: 250,
         },
         {
             title: 'Actions',
