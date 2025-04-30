@@ -55,9 +55,24 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
         const items = [{ title: <Link to="/">Home</Link> }];
 
         if (path !== '/') {
-            const segment = path.split('/')[1];
-            items.push({
-                title: segment.charAt(0).toUpperCase() + segment.slice(1)
+            const segments = path.split('/').filter(segment => segment);
+
+            let currentPath = '';
+            segments.forEach((segment, index) => {
+                currentPath += `/${segment}`;
+
+                // Format the segment for display (capitalize first letter)
+                const formattedSegment = segment.charAt(0).toUpperCase() + segment.slice(1);
+
+                // For the last segment (current page), don't make it a link
+                if (index === segments.length - 1) {
+                    items.push({ title: formattedSegment });
+                } else {
+                    // For intermediate paths, make them navigable links
+                    items.push({
+                        title: <Link to={currentPath}>{formattedSegment}</Link>
+                    });
+                }
             });
         }
 

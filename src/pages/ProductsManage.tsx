@@ -75,16 +75,6 @@ const ProductsManage = (): JSX.Element => {
         setSearchTerm(value.toLowerCase());
     };
 
-    // Handle category filter
-    const handleCategoryChange = (value: number | null): void => {
-        setSelectedCategory(value);
-    };
-
-    // Handle supplier filter
-    const handleSupplierChange = (value: number | null): void => {
-        setSelectedSupplier(value);
-    };
-
     // Reset all filters
     const resetFilters = (): void => {
         setSearchTerm("");
@@ -492,7 +482,7 @@ const ProductsManage = (): JSX.Element => {
 
                 <Card className="filters-card">
                     <Row gutter={[16, 16]} align="middle">
-                        <Col xs={24} md={12} lg={8}>
+                        <Col xs={24} md={10} lg={8}>
                             <Input.Search
                                 placeholder="Search products by name"
                                 allowClear
@@ -505,44 +495,11 @@ const ProductsManage = (): JSX.Element => {
                             />
                         </Col>
 
-                        <Col xs={24} md={12} lg={10}>
-                            <Row gutter={8}>
-                                <Col span={12}>
-                                    <Select
-                                        placeholder="Filter by Category"
-                                        style={{ width: '100%' }}
-                                        allowClear
-                                        value={selectedCategory}
-                                        onChange={handleCategoryChange}
-                                        className="bamboo-select"
-                                    >
-                                        {categories.map(category => (
-                                            <Option key={category.id} value={category.id}>
-                                                {category.name}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Col>
-                                <Col span={12}>
-                                    <Select
-                                        placeholder="Filter by Supplier"
-                                        style={{ width: '100%' }}
-                                        allowClear
-                                        value={selectedSupplier}
-                                        onChange={handleSupplierChange}
-                                        className="bamboo-select"
-                                    >
-                                        {suppliers.map(supplier => (
-                                            <Option key={supplier.id} value={supplier.id}>
-                                                {supplier.name}
-                                            </Option>
-                                        ))}
-                                    </Select>
-                                </Col>
-                            </Row>
+                        <Col xs={0} md={8} lg={10}>
+                            {/* Empty space to maintain layout */}
                         </Col>
 
-                        <Col xs={12} md={6} lg={3}>
+                        <Col xs={12} md={3} lg={3}>
                             <Tooltip title="Reset all filters">
                                 <Button
                                     onClick={resetFilters}
@@ -554,7 +511,7 @@ const ProductsManage = (): JSX.Element => {
                             </Tooltip>
                         </Col>
 
-                        <Col xs={12} md={6} lg={3} style={{ textAlign: 'right' }}>
+                        <Col xs={12} md={3} lg={3} style={{ textAlign: 'right' }}>
                             <Button
                                 type="primary"
                                 icon={<PlusOutlined />}
@@ -573,11 +530,9 @@ const ProductsManage = (): JSX.Element => {
                 <Text className="filter-count">
                     Showing {filteredProducts.length} of {products.length} products
                 </Text>
-                {(searchTerm || selectedCategory || selectedSupplier) && (
+                {searchTerm && (
                     <Text type="secondary">
-                        Filters applied: {searchTerm ? 'Search term, ' : ''}
-                        {selectedCategory ? 'Category, ' : ''}
-                        {selectedSupplier ? 'Supplier' : ''}
+                        Filters applied: {searchTerm ? 'Search term' : ''}
                     </Text>
                 )}
             </div>

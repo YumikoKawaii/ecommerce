@@ -475,7 +475,7 @@ const CouponsManage = () => {
 
                 <Card className="filters-card">
                     <Row gutter={[16, 16]} align="middle">
-                        <Col xs={24} md={12} lg={8}>
+                        <Col xs={24} md={10} lg={8}>
                             <Input.Search
                                 placeholder="Search coupons by name or code"
                                 allowClear
@@ -488,24 +488,11 @@ const CouponsManage = () => {
                             />
                         </Col>
 
-                        <Col xs={24} md={12} lg={10}>
-                            <Select
-                                placeholder="Filter by Product"
-                                style={{ width: "100%" }}
-                                allowClear
-                                value={selectedProduct}
-                                onChange={handleProductChange}
-                                className="bamboo-select"
-                            >
-                                {products.map((product) => (
-                                    <Option key={product.id} value={product.id}>
-                                        {product.name}
-                                    </Option>
-                                ))}
-                            </Select>
+                        <Col xs={0} md={8} lg={10}>
+                            {/* Empty space to maintain layout */}
                         </Col>
 
-                        <Col xs={12} md={6} lg={3}>
+                        <Col xs={12} md={3} lg={3}>
                             <Tooltip title="Reset all filters">
                                 <Button
                                     onClick={resetFilters}
@@ -517,7 +504,7 @@ const CouponsManage = () => {
                             </Tooltip>
                         </Col>
 
-                        <Col xs={12} md={6} lg={3} style={{ textAlign: "right" }}>
+                        <Col xs={12} md={3} lg={3} style={{ textAlign: "right" }}>
                             <Button
                                 type="primary"
                                 icon={<PlusOutlined />}
@@ -536,10 +523,9 @@ const CouponsManage = () => {
                 <Text className="filter-count">
                     Showing {filteredCoupons.length} of {coupons.length} coupons
                 </Text>
-                {(searchTerm || selectedProduct) && (
+                {searchTerm && (
                     <Text type="secondary">
-                        Filters applied: {searchTerm ? "Search term, " : ""}
-                        {selectedProduct ? "Product" : ""}
+                        Filters applied: {searchTerm ? "Search term" : ""}
                     </Text>
                 )}
             </div>
