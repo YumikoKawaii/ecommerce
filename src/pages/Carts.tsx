@@ -192,9 +192,7 @@ const Carts: React.FC = () => {
                                             icon={<DeleteOutlined />}
                                             className="cart-remove-btn"
                                             onClick={() => handleRemoveItem(item.id)}
-                                        >
-                                            Remove
-                                        </Button>
+                                        />
                                     </Col>
                                 </Row>
                             </div>

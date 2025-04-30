@@ -1,4 +1,4 @@
-import { Layout, Menu, Input, Badge, Avatar, Dropdown, Typography, Space, Row, Col } from 'antd';
+import { Layout, Menu, Input, Badge, Avatar, Dropdown, Typography, Row, Col } from 'antd';
 import {
     UserOutlined,
     ShoppingCartOutlined,
@@ -14,7 +14,7 @@ import { useState } from 'react';
 import haru_bamboo from '../assets/haru_bamboo.png';
 
 const { Header, Footer, Content } = Layout;
-const { Title, Text } = Typography;
+const { Text } = Typography;
 const { Search } = Input;
 
 const FacingLayout = ({ children }) => {
@@ -95,6 +95,15 @@ const FacingLayout = ({ children }) => {
                                 </div>
                             </Col>
 
+                            {/* Cart Info */}
+                            <Col xs={4} sm={3} md={3} lg={3} className="user-info">
+                                <Badge count={cartItems} size="small">
+                                    <Link to="/cart" className="cart-link">
+                                        <ShoppingCartOutlined className="cart-icon" />
+                                    </Link>
+                                </Badge>
+                            </Col>
+
                             {/* User Info */}
                             <Col xs={4} sm={3} md={3} lg={3} className="user-info">
                                 <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
@@ -106,19 +115,10 @@ const FacingLayout = ({ children }) => {
                                             size={32}
                                         />
                                         <span className="user-name">
-                            {user.name.split(' ')[0]}
-                        </span>
+                                            {user.name.split(' ')[0]}
+                                        </span>
                                     </div>
                                 </Dropdown>
-                            </Col>
-
-                            {/* Cart Info */}
-                            <Col xs={4} sm={3} md={3} lg={3} className="user-info">
-                                <Badge count={cartItems} size="small">
-                                    <Link to="/cart" className="cart-link">
-                                        <ShoppingCartOutlined className="cart-icon" />
-                                    </Link>
-                                </Badge>
                             </Col>
                         </Row>
 
